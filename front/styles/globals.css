@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+	body {
+		@apply dark:bg-slate-900 dark:text-white;
+	}
+}
+
+@layer components {
+	.input {
+		@apply dark:bg-slate-800 px-2 py-1 border-1 rounded-lg dark:border-slate-600;
+	}
+
+}
