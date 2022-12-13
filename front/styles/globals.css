@@ -21,6 +21,10 @@
     @apply dark:bg-slate-800 px-2 py-1 border-1 rounded-lg dark:border-slate-600;
   }
 
+	.auth-input--error {
+		@apply text-xs dark:text-red-400 overflow-hidden max-h-0 data-[visible=true]:max-h-4 data-[visible=true]:mt-1 transition-all;
+	}
+
   .blue-button {
     @apply rounded-lg px-6 py-2 bg-blue-600 text-white hover:bg-blue-700 focus-within:bg-blue-700 transition-colors font-semibold text-sm mx-auto;
   }
