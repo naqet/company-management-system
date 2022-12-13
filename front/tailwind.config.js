@@ -9,6 +9,10 @@ module.exports = {
 		extend: {
 			borderWidth: {
 				1: "1px"
+			},
+			fontFamily: {
+				roboto: ['var(--font-roboto)'],
+				poppins: ['var(--font-poppins)'],
 			}
 		},
 	},
