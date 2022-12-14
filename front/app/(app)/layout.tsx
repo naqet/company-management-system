@@ -1,4 +1,5 @@
 import { Roboto, Poppins } from "@next/font/google";
+import Header from "../../components/Header";
 import "../../styles/globals.css";
 
 const roboto = Roboto({ variable: "--font-roboto", weight: "400" });
@@ -13,7 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`dark ${roboto.variable} ${poppins.variable}`}>
-      <body>{children}</body>
+      <body>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
