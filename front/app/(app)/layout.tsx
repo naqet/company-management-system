@@ -1,5 +1,5 @@
 import { Roboto, Poppins } from "@next/font/google";
-import "../styles/globals.css";
+import "../../styles/globals.css";
 
 const roboto = Roboto({ variable: "--font-roboto", weight: "400" });
 const poppins = Poppins({ variable: "--font-poppins", weight: ["400", "600"] });

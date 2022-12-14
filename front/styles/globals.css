@@ -14,6 +14,13 @@
   *:focus:not(:focus-visible) {
     outline: none;
   }
+
+  /* This fix is only temporary. This bug has been fixed
+	 * in the upcoming NextJS version
+	 * */
+  [data-nextjs-scroll-focus-boundary] {
+    display: contents;
+  }
 }
 
 @layer components {
