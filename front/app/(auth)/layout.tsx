@@ -1,8 +1,16 @@
 import { Roboto, Poppins } from "@next/font/google";
 import "../../styles/globals.css";
 
-const roboto = Roboto({ variable: "--font-roboto", weight: "400" });
-const poppins = Poppins({ variable: "--font-poppins", weight: ["400", "600"] });
+const roboto = Roboto({
+  variable: "--font-roboto",
+  subsets: ["latin"],
+  weight: "400",
+});
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["400", "600", "800"],
+});
 
 export default function RootLayout({
   // Layouts must accept a children prop.
