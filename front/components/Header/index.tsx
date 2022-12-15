@@ -5,7 +5,7 @@ import MenuButton from "./MenuButton";
 
 export default function Header() {
   return (
-    <header className="dark:bg-slate-800 p-3 flex items-center justify-between border-b-1 dark:border-slate-600">
+    <header className="dark:bg-slate-900 p-4 flex items-center justify-between border-b-1 dark:border-slate-800">
       <MenuButton />
 
       {/* TODO: Add Logo*/}
