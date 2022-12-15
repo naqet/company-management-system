@@ -11,7 +11,7 @@ export default function ProjectSwitch() {
       <button
         type="button"
         title="Choose project"
-        className="text-lg lg:text-sm flex gap-2 justify-between items-center w-full font-semibold tracking-[0.3rem] text-hover"
+        className="text-lg lg:text-sm flex gap-2 justify-between items-center w-full font-extrabold text-hover dark:text-slate-600"
         onClick={() => setIsOpen((prevOpen) => !prevOpen)}
       >
         PROJECTS {isOpen ? <AiFillCaretUp /> : <AiFillCaretDown />}
