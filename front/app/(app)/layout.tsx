@@ -1,5 +1,6 @@
 import { Roboto, Poppins } from "@next/font/google";
 import Header from "../../components/Header";
+import Sidebar from "../../components/Sidebar";
 import "../../styles/globals.css";
 
 const roboto = Roboto({ variable: "--font-roboto", weight: "400" });
@@ -16,7 +17,10 @@ export default function RootLayout({
     <html lang="en" className={`dark ${roboto.variable} ${poppins.variable}`}>
       <body>
         <Header />
-        {children}
+        <div className="flex">
+          <Sidebar />
+          <main>{children}</main>
+        </div>
       </body>
     </html>
   );
