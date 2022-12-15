@@ -3,6 +3,7 @@ import { FiLogOut } from "react-icons/fi";
 import MainMenu from "./MainMenu";
 import ProjectSwitch from "./ProjectSwitch";
 import SmallProjectInfo from "./ProjectSwitch/SmallProjectInfo";
+import ThemeSwitch from "./ThemeSwitch";
 
 export default function Sidebar() {
   return (
@@ -20,11 +21,14 @@ export default function Sidebar() {
           <Link
             title="Log out"
             href="/logout"
-            className="border-hover text-hover rounded-lg text-2xl block py-3 px-5"
+            className="border-hover text-hover rounded-lg text-2xl block py-3 px-5 dark:bg-slate-800 "
             tabIndex={0}
           >
             <FiLogOut />
           </Link>
+        </li>
+        <li>
+          <ThemeSwitch />
         </li>
       </ul>
     </aside>
