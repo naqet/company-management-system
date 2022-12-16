@@ -3,8 +3,12 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    @apply max-w-[1920px] 4xl:mx-auto;
+  }
+
   body {
-    @apply dark:bg-gray-900 dark:text-white font-poppins;
+    @apply dark:bg-gray-900 dark:text-white font-poppins 4xl:border-x-1 dark:4xl:border-slate-800;
   }
 
   *:focus-visible {

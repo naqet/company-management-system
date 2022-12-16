@@ -11,6 +11,9 @@ module.exports = {
         roboto: ["var(--font-roboto)"],
         poppins: ["var(--font-poppins)"],
       },
+      screens: {
+        "4xl": "1920px",
+      },
     },
   },
   plugins: [require("@tailwindcss/container-queries")],
