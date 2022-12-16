@@ -7,7 +7,7 @@ import "../../styles/globals.css";
 const roboto = Roboto({
   variable: "--font-roboto",
   subsets: ["latin"],
-  weight: "400",
+  weight: "300",
 });
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -35,7 +35,7 @@ export default function RootLayout({
         <Header />
         <div className="flex">
           <Sidebar />
-          <main className="p-3">{children}</main>
+          {children}
         </div>
       </body>
     </html>
