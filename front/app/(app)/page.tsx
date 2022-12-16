@@ -1,3 +1,4 @@
+import Link from "next/link";
 import ProjectPreview from "../../components/ProjectPreview";
 import { Project } from "../../types/Project";
 
@@ -7,28 +8,28 @@ const projects: Project[] = [
     id: 1,
     name: "Test project",
     client: "Test client",
-    deadLine: new Date("2022-12-01"),
+    deadline: "2022-12-01",
     completionPercentage: 45,
   },
   {
     id: 2,
     name: "Test project",
     client: "Test client",
-    deadLine: new Date("2022-12-17"),
+    deadline: "2022-12-17",
     completionPercentage: 45,
   },
   {
     id: 3,
     name: "Another project with a very very long title",
     client: "Another client",
-    deadLine: new Date("2022-12-30"),
+    deadline: "2022-12-30",
     completionPercentage: 78,
   },
   {
     id: 4,
     name: "Another project with a very very long title",
     client: "Another client",
-    deadLine: new Date("2023-06-01"),
+    deadline: "2023-06-01",
     completionPercentage: 78,
   },
 ];
@@ -48,7 +49,7 @@ export default function HomePage() {
           {projects.map((project) => (
             <li
               key={project.id}
-              className="w-full @lg:row-span-1 @lg:col-span-1 "
+              className="w-full @lg:row-span-1 @lg:col-span-1 grid"
             >
               <ProjectPreview project={project} />
             </li>

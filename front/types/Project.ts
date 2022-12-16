@@ -4,6 +4,6 @@ export type Project = {
   id: number;
   name: string;
   client: string;
-  deadLine: Date;
+  deadline: string;
   completionPercentage: number;
 };

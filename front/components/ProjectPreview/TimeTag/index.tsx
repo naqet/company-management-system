@@ -1,13 +1,14 @@
 import { FiClock } from "react-icons/fi";
 
 type Props = {
-  deadline: Date;
+  deadline: string;
 };
 
 const TimeTag: React.FC<Props> = ({ deadline }) => {
+  const deadlineTime = new Date(deadline).getTime();
   const timeLeft = Number(
     (
-      (deadline.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24) +
+      (deadlineTime - new Date().getTime()) / (1000 * 60 * 60 * 24) +
       1
     ).toFixed()
   );
