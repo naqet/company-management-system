@@ -21,7 +21,7 @@ export default function Sidebar() {
           <Link
             title="Log out"
             href="/logout"
-            className="border-hover text-hover rounded-lg text-2xl block py-3 px-5 dark:bg-slate-800 "
+            className="border-hover text-hover rounded-lg text-2xl block py-2 px-8 dark:bg-slate-800 "
             tabIndex={0}
           >
             <FiLogOut />

@@ -140,6 +140,7 @@ export default function SignUpPanel() {
               />
               <button
                 type="button"
+                title="Show password"
                 className="border-hover p-2 dark:bg-slate-800 rounded-lg"
                 onClick={handlePasswordType}
               >

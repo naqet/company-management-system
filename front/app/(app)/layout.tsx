@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { Roboto, Poppins } from "@next/font/google";
 import Header from "../../components/Header";
 import Sidebar from "../../components/Sidebar";
@@ -21,8 +22,15 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const nextCookies = cookies();
+  const lightMode = nextCookies.has("lightMode");
   return (
-    <html lang="en" className={`dark ${roboto.variable} ${poppins.variable}`}>
+    <html
+      lang="en"
+      className={`${!lightMode && "dark"} ${roboto.variable} ${
+        poppins.variable
+      }`}
+    >
       <body>
         <Header />
         <div className="flex">

@@ -1,4 +1,5 @@
 import { Roboto, Poppins } from "@next/font/google";
+import { cookies } from "next/headers";
 import "../../styles/globals.css";
 
 const roboto = Roboto({
@@ -19,8 +20,15 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const nextCookies = cookies();
+  const lightMode = nextCookies.has("lightMode");
   return (
-    <html lang="en" className={`dark ${roboto.variable} ${poppins.variable}`}>
+    <html
+      lang="en"
+      className={`${!lightMode && "dark"} ${roboto.variable} ${
+        poppins.variable
+      }`}
+    >
       <body>
         <main className="grid place-items-center h-screen">{children}</main>
       </body>
