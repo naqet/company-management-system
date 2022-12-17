@@ -1,4 +1,3 @@
-import Link from "next/link";
 import ProjectPreview from "../../components/ProjectPreview";
 import { Project } from "../../types/Project";
 
