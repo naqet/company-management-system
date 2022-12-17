@@ -1,3 +1,4 @@
+import KanbanBoard from "../../../../components/KanbanBoard";
 import KanbanViewSettings from "../../../../components/KanbanViewSettings";
 
 export default function ProjectPage({
@@ -11,6 +12,7 @@ export default function ProjectPage({
         <h1 className="text-2xl">Project</h1>
         <KanbanViewSettings />
       </div>
+      <KanbanBoard />
     </main>
   );
 }
