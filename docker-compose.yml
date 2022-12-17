@@ -1,0 +1,12 @@
+version: "3"
+services:
+  nextjs:
+    build:
+      context: ./front
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./front:/app/front
+      #env_file:
+      #    - ./front/.env
