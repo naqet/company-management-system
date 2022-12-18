@@ -1,35 +1,62 @@
 "use client";
-import { FiEye, FiEyeOff } from "react-icons/fi";
+import { FiEye, FiEyeOff, FiLoader } from "react-icons/fi";
 import { FormEvent, useRef, useState } from "react";
-import { ZodError } from "zod";
+import { ZodError, ZodIssue } from "zod";
 import signUpSchema from "../../../schemas/SignUpSchema";
+import { useRouter } from "next/navigation";
 
 type InputErrors = {
   [key: string]: string;
 };
 
 export default function SignUpPanel() {
+  const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
   const [passType, setPassType] = useState<"text" | "password">("password");
   const [errors, setErrors] = useState<InputErrors>({});
+  const [loading, setLoading] = useState(false);
 
   const handlePasswordType = (): void => {
     setPassType((prev) => (prev === "text" ? "password" : "text"));
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (
+    event: FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     try {
       event.preventDefault();
+      if (!formRef.current) return;
+      setLoading(true);
 
-      const data = Object.fromEntries(
-        new FormData(formRef.current as HTMLFormElement)
-      );
+      const data = Object.fromEntries(new FormData(formRef.current));
 
-      signUpSchema.parse(data);
-      setErrors({});
+      //signUpSchema.parse(data);
+
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      // If it's Bad Request, we need to handle errors
+      if (response.status === 400) {
+        const error = (await response.json()) as ZodIssue[];
+
+        if (error && Array.isArray(error)) throw new ZodError(error);
+        // If it's any other error, we handle it.
+      } else if (400 < response.status && response.status < 600) {
+        throw new Error(`${response.status} ${response.statusText}`);
+      }
+
+      // If redirect is happening, we need to handle it manually
+      if (response.redirected) {
+        router.push(response.url);
+        return;
+      }
     } catch (e) {
+      setLoading(false);
       if (e instanceof ZodError) {
         setErrors(
           e.errors.reduce(
@@ -40,12 +67,16 @@ export default function SignUpPanel() {
             {}
           )
         );
+      } else if (e instanceof Error) {
+        setErrors({ generalError: e.message });
       }
     }
   };
 
   const checkPasswords = () => {
-    if (!passwordRef.current || !confirmPasswordRef.current) return;
+    // If any of the fields is not filled
+    if (!passwordRef.current?.value || !confirmPasswordRef.current?.value)
+      return;
 
     if (confirmPasswordRef.current.value !== passwordRef.current.value) {
       setErrors((prevErrors) => ({
@@ -124,6 +155,7 @@ export default function SignUpPanel() {
                 minLength={8}
                 type={passType}
                 aria-errormessage="passwordError"
+                onChange={checkPasswords}
               />
               <button
                 type="button"
@@ -171,9 +203,20 @@ export default function SignUpPanel() {
             type="submit"
             title="Submit sign up form"
             className="blue-button"
+            disabled={loading}
           >
-            Sign up
+            {loading ? (
+              <FiLoader className="animate-spin text-xl" />
+            ) : (
+              "Sign up"
+            )}
           </button>
+          <span
+            data-visible={!!errors.generalError}
+            className="auth-input--error"
+          >
+            {errors.generalError}
+          </span>
         </form>
       </section>
     </div>

@@ -30,7 +30,6 @@ const withMiddleware =
           res.status(e.statusCode).send(e.message);
           return;
         } else {
-          console.log(e);
           res.status(500).send("Internal Server Error");
           return;
         }

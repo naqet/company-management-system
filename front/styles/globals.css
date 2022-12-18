@@ -37,7 +37,7 @@
   }
 
   .blue-button {
-    @apply rounded-lg px-6 py-2 bg-blue-600 text-white hover:bg-blue-700 focus-visible:bg-blue-700 transition-colors font-semibold text-sm mx-auto;
+    @apply rounded-lg px-6 py-2 bg-blue-600 text-white hover:bg-blue-700 focus-visible:bg-blue-700 transition-colors font-semibold text-sm mx-auto disabled:opacity-50 disabled:hover:bg-blue-600;
   }
 }
 
@@ -47,5 +47,9 @@
   }
   .border-hover {
     @apply border-1 dark:border-slate-600 dark:lg:hover:border-slate-500 dark:focus-visible:border-slate-500 transition-colors;
+  }
+
+  .animation-delay-\[5000\] {
+    animation-delay: 5s;
   }
 }

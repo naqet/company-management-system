@@ -24,6 +24,7 @@ async function signUpHandler(
 
   await createUser({ email, name, passwordHash });
 
+  res.setHeader("Set-Cookie", "signup-success=true; max-age=5; path=/login");
   res.redirect("/login");
 }
 
