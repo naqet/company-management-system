@@ -6,7 +6,19 @@ services:
       dockerfile: Dockerfile.dev
     ports:
       - "3000:3000"
+    depends_on: [db]
     volumes:
       - ./front:/app/front
-      #env_file:
-      #    - ./front/.env
+    env_file:
+      - ./front/.env.dev
+  db:
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./front/.env.dev
+    volumes:
+      - db-data:/var/lib/postgresql/data
+volumes:
+  db-data:
