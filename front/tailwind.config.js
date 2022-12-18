@@ -14,6 +14,15 @@ module.exports = {
       screens: {
         "4xl": "1920px",
       },
+      keyframes: {
+        hide: {
+          "0%": { opacity: 100 },
+          "100%": { opacity: 0 },
+        },
+      },
+      animation: {
+        hide: "hide 600ms linear forwards",
+      },
     },
   },
   plugins: [require("@tailwindcss/container-queries")],
