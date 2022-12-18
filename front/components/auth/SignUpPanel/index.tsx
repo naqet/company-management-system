@@ -1,21 +1,8 @@
 "use client";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { FormEvent, useRef, useState } from "react";
-import { z, ZodError } from "zod";
-
-const signUpSchema = z
-  .object({
-    name: z.string(),
-    email: z.string().email(),
-    password: z.string().min(8, "Passoword must contain at least 8 characters"),
-    confirmPassword: z
-      .string()
-      .min(8, "Passoword must contain at least 8 characters"),
-  })
-  .refine((val) => val.password === val.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
+import { ZodError } from "zod";
+import signUpSchema from "../../../schemas/SignUpSchema";
 
 type InputErrors = {
   [key: string]: string;
