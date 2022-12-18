@@ -1,4 +1,5 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import { ApiError } from "next/dist/server/api-utils";
 
 type Method = "GET" | "POST" | "PUT" | "DELETE";
 
@@ -8,15 +9,13 @@ const isMethod = (method: any): method is Method => {
 
 const withMethodValidation =
   (methods: Method[]) =>
-  (handler: (req: NextApiRequest, res: NextApiResponse) => void) =>
-  (req: NextApiRequest, res: NextApiResponse) => {
+  (req: NextApiRequest, res: NextApiResponse) =>
+  (handler: NextApiHandler) => {
     if (
       typeof req.method === "undefined" ||
       (isMethod(req.method) && !methods.includes(req.method))
     ) {
-      res.setHeader("Allow", methods);
-      res.status(405).send(`Method Not Allowed`);
-      return;
+      throw new ApiError(403, "Method Not Allowed");
     }
 
     return handler(req, res);

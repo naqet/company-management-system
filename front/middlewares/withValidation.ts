@@ -1,10 +1,10 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { ZodError, ZodSchema } from "zod";
 
 const withValidation =
   (schema: ZodSchema) =>
-  (handler: (req: NextApiRequest, res: NextApiResponse) => void) =>
-  (req: NextApiRequest, res: NextApiResponse) => {
+  (req: NextApiRequest, res: NextApiResponse) =>
+  (handler: NextApiHandler) => {
     try {
       schema.parse(req.body);
       return handler(req, res);
