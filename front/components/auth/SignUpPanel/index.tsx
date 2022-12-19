@@ -32,7 +32,7 @@ export default function SignUpPanel() {
 
       const data = Object.fromEntries(new FormData(formRef.current));
 
-      //signUpSchema.parse(data);
+      signUpSchema.parse(data);
 
       const response = await fetch("/api/auth/signup", {
         method: "POST",
@@ -40,14 +40,15 @@ export default function SignUpPanel() {
         body: JSON.stringify(data),
       });
 
-      // If it's Bad Request, we need to handle errors
+      // If it's a Bad Request, we need to handle errors
       if (response.status === 400) {
         const error = (await response.json()) as ZodIssue[];
 
         if (error && Array.isArray(error)) throw new ZodError(error);
         // If it's any other error, we handle it.
       } else if (400 < response.status && response.status < 600) {
-        throw new Error(`${response.status} ${response.statusText}`);
+        const errorText = await response.text();
+        throw new Error(errorText ?? response.statusText);
       }
 
       // If redirect is happening, we need to handle it manually
