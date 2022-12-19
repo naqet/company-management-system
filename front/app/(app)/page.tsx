@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import ProjectPreview from "../../components/ProjectPreview";
 import { Project } from "../../types/Project";
 
@@ -34,6 +35,8 @@ const projects: Project[] = [
 ];
 
 export default function HomePage() {
+  const nextCookies = cookies();
+  console.log(nextCookies.get("Authentication"));
   return (
     <main className="grid p-4 align-top w-full h-fit gap-4">
       <h1 className="text-2xl">

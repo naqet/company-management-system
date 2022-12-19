@@ -4,13 +4,15 @@ import { AiOutlineGoogle } from "react-icons/ai";
 import Link from "next/link";
 import { FormEvent, useRef, useState } from "react";
 import signInSchema from "../../../schemas/SignInSchema";
-import { ZodError } from "zod";
+import { ZodError, ZodIssue } from "zod";
+import { useRouter } from "next/navigation";
 
 type InputErrors = {
   [key: string]: string;
 };
 
 export default function SignInPanel() {
+  const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
   const [passType, setPassType] = useState<"text" | "password">("password");
   const [errors, setErrors] = useState<InputErrors>({});
@@ -30,6 +32,29 @@ export default function SignInPanel() {
       const data = Object.fromEntries(new FormData(formRef.current));
 
       signInSchema.parse(data);
+
+      const response = await fetch("/api/auth/signin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      // If it's a Bad Request, we need to handle errors
+      if (response.status === 400) {
+        const error = (await response.json()) as ZodIssue[];
+
+        if (error && Array.isArray(error)) throw new ZodError(error);
+        // If it's any other error, we handle it.
+      } else if (400 < response.status && response.status < 600) {
+        const errorText = await response.text();
+        throw new Error(errorText ?? response.statusText);
+      }
+
+      // If redirect is happening, we need to handle it manually
+      if (response.redirected) {
+        router.push(response.url);
+        return;
+      }
     } catch (e) {
       setLoading(false);
       if (e instanceof ZodError) {

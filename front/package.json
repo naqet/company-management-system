@@ -20,6 +20,7 @@
     "bcrypt": "^5.1.0",
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.6",
+    "jsonwebtoken": "^8.5.1",
     "next": "13.0.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -31,6 +32,7 @@
   "devDependencies": {
     "@tailwindcss/container-queries": "^0.1.0",
     "@types/bcrypt": "^5.0.0",
+    "@types/jsonwebtoken": "^8.5.9",
     "autoprefixer": "^10.4.13",
     "dotenv-cli": "^6.0.0",
     "eslint-config-prettier": "^8.5.0",
