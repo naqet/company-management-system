@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
-import LoginPanel from "../../../components/auth/LoginPanel";
+import SignInPanel from "../../../components/auth/SignInPanel";
 
-export default function LoginPage() {
+export default function SignInPage() {
   const nextCookies = cookies();
   const signupSuccess = nextCookies.has("signup-success");
   return (
@@ -11,7 +11,7 @@ export default function LoginPage() {
           Account created
         </div>
       )}
-      <LoginPanel />
+      <SignInPanel />
     </>
   );
 }

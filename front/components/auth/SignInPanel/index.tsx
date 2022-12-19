@@ -1,19 +1,19 @@
 "use client";
-import { FiEye, FiEyeOff, FiLoader } from "react-icons/fi";
+import { FiGithub, FiEye, FiEyeOff, FiLoader } from "react-icons/fi";
+import { AiOutlineGoogle } from "react-icons/ai";
+import Link from "next/link";
 import { FormEvent, useRef, useState } from "react";
+import signInSchema from "../../../schemas/SignInSchema";
 import { ZodError, ZodIssue } from "zod";
-import signUpSchema from "../../../schemas/SignUpSchema";
 import { useRouter } from "next/navigation";
 
 type InputErrors = {
   [key: string]: string;
 };
 
-export default function SignUpPanel() {
+export default function SignInPanel() {
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const confirmPasswordRef = useRef<HTMLInputElement>(null);
   const [passType, setPassType] = useState<"text" | "password">("password");
   const [errors, setErrors] = useState<InputErrors>({});
   const [loading, setLoading] = useState(false);
@@ -29,12 +29,11 @@ export default function SignUpPanel() {
       event.preventDefault();
       if (!formRef.current) throw Error("Form not valid");
       setLoading(true);
-
       const data = Object.fromEntries(new FormData(formRef.current));
 
-      signUpSchema.parse(data);
+      signInSchema.parse(data);
 
-      const response = await fetch("/api/auth/signup", {
+      const response = await fetch("/api/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -74,51 +73,32 @@ export default function SignUpPanel() {
     }
   };
 
-  const checkPasswords = () => {
-    // If any of the fields is not filled
-    if (!passwordRef.current?.value || !confirmPasswordRef.current?.value)
-      return;
-
-    if (confirmPasswordRef.current.value !== passwordRef.current.value) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        ...{
-          confirmPassword: "Passwords do not match",
-        },
-      }));
-    } else {
-      setErrors((prevErrors) => {
-        const newErrors = { ...prevErrors };
-        delete newErrors.confirmPassword;
-        return newErrors;
-      });
-    }
-  };
-
   return (
     <div className="max-w-md w-[90%]">
-      <h1 className="text-center mb-2 text-2xl font-semibold">Join the team</h1>
+      <h1 className="text-center mb-2 text-2xl font-semibold">Welcome back</h1>
       <section className="dark:border-slate-700 border-1 p-4 rounded-lg grid gap-2">
-        <form className="grid gap-4" ref={formRef} onSubmit={handleSubmit}>
-          <div className="grid">
-            <label htmlFor="name" className="dark:text-slate-400 text-sm ml-3">
-              Name
-            </label>
-            <input
-              name="name"
-              id="name"
-              className="auth-input"
-              required
-              aria-errormessage="nameError"
-            />
-            <span
-              id="nameError"
-              data-visible={!!errors.name}
-              className="form--error"
+        <ul className="flex gap-4 justify-center mx-auto text-3xl md:text-xl">
+          <li>
+            <button
+              type="button"
+              className="p-2 rounded-lg dark:bg-slate-800 text-hover border-hover"
+              title="Sign in with GitHub"
             >
-              {errors.name}
-            </span>
-          </div>
+              <FiGithub />
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              className="p-2 rounded-lg dark:bg-slate-800 text-hover border-hover"
+              title="Sign in with Google"
+            >
+              <AiOutlineGoogle />
+            </button>
+          </li>
+        </ul>
+        <p className="text-center dark:text-slate-400">or</p>
+        <form className="grid gap-4" onSubmit={handleSubmit} ref={formRef}>
           <div className="grid">
             <label htmlFor="email" className="dark:text-slate-400 text-sm ml-3">
               Email
@@ -127,8 +107,8 @@ export default function SignUpPanel() {
               name="email"
               id="email"
               className="auth-input"
-              type="email"
               required
+              type="email"
               aria-errormessage="emailError"
             />
             <span
@@ -148,15 +128,11 @@ export default function SignUpPanel() {
             </label>
             <div className="flex gap-2">
               <input
-                ref={passwordRef}
                 name="password"
                 id="password"
-                className="auth-input	w-full"
+                className="auth-input w-full"
                 required
-                minLength={8}
                 type={passType}
-                aria-errormessage="passwordError"
-                onChange={checkPasswords}
               />
               <button
                 type="button"
@@ -167,55 +143,47 @@ export default function SignUpPanel() {
                 {passType === "password" ? <FiEye /> : <FiEyeOff />}
               </button>
             </div>
-            <span
-              id="passwordError"
-              data-visible={!!errors.password}
-              className="form--error"
-            >
-              {errors.password}
-            </span>
-          </div>
-          <div className="grid">
-            <label
-              htmlFor="confirmPassword"
-              className="dark:text-slate-400 text-sm ml-3"
-            >
-              Confirm password
-            </label>
-            <input
-              ref={confirmPasswordRef}
-              name="confirmPassword"
-              id="confirmPassword"
-              className="auth-input w-full"
-              required
-              type={passType}
-              onChange={checkPasswords}
-              aria-errormessage="confirmPasswordError"
-            />
-            <span
-              id="confirmPasswordError"
-              data-visible={!!errors.confirmPassword}
-              className="form--error"
-            >
-              {errors.confirmPassword}
-            </span>
           </div>
           <button
             type="submit"
-            title="Submit sign up form"
+            title="Submit sign in form"
             className="blue-button"
             disabled={loading}
           >
             {loading ? (
               <FiLoader className="animate-spin text-xl" />
             ) : (
-              "Sign up"
+              "Sign in"
             )}
           </button>
-          <span data-visible={!!errors.generalError} className="form--error">
-            {errors.generalError}
-          </span>
         </form>
+        <ul
+          className={`text-xs flex justify-between w-full px-3 dark:text-slate-400 ${
+            loading && "pointer-events-none opacity-50"
+          }`}
+        >
+          <li>
+            <Link
+              href="remindPassword"
+              className="text-hover"
+              tabIndex={loading ? undefined : 0}
+            >
+              Remind password
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="signup"
+              className="text-hover"
+              tabIndex={loading ? undefined : 0}
+            >
+              Sign up
+            </Link>
+          </li>
+        </ul>
+        <span data-visible={!!errors.generalError} className="form--error">
+          {errors.generalError}
+        </span>
       </section>
     </div>
   );

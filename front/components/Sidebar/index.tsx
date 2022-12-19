@@ -19,8 +19,8 @@ export default function Sidebar() {
       <ul className="w-full flex justify-around mt-auto gap-4">
         <li>
           <Link
-            title="Log out"
-            href="/logout"
+            title="Sign out"
+            href="/signout"
             className="border-hover text-hover rounded-lg text-2xl block py-2 px-8 dark:bg-slate-800 "
             tabIndex={0}
           >
