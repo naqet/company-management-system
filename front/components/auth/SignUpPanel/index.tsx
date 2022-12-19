@@ -27,7 +27,7 @@ export default function SignUpPanel() {
   ): Promise<void> => {
     try {
       event.preventDefault();
-      if (!formRef.current) return;
+      if (!formRef.current) throw Error("Form not valid");
       setLoading(true);
 
       const data = Object.fromEntries(new FormData(formRef.current));
@@ -114,7 +114,7 @@ export default function SignUpPanel() {
             <span
               id="nameError"
               data-visible={!!errors.name}
-              className="auth-input--error"
+              className="form--error"
             >
               {errors.name}
             </span>
@@ -134,7 +134,7 @@ export default function SignUpPanel() {
             <span
               id="emailError"
               data-visible={!!errors.email}
-              className="auth-input--error"
+              className="form--error"
             >
               {errors.email}
             </span>
@@ -170,7 +170,7 @@ export default function SignUpPanel() {
             <span
               id="passwordError"
               data-visible={!!errors.password}
-              className="auth-input--error"
+              className="form--error"
             >
               {errors.password}
             </span>
@@ -195,7 +195,7 @@ export default function SignUpPanel() {
             <span
               id="confirmPasswordError"
               data-visible={!!errors.confirmPassword}
-              className="auth-input--error"
+              className="form--error"
             >
               {errors.confirmPassword}
             </span>
@@ -212,10 +212,7 @@ export default function SignUpPanel() {
               "Sign up"
             )}
           </button>
-          <span
-            data-visible={!!errors.generalError}
-            className="auth-input--error"
-          >
+          <span data-visible={!!errors.generalError} className="form--error">
             {errors.generalError}
           </span>
         </form>

@@ -1,14 +1,51 @@
 "use client";
-import { FiGithub, FiEye, FiEyeOff } from "react-icons/fi";
+import { FiGithub, FiEye, FiEyeOff, FiLoader } from "react-icons/fi";
 import { AiOutlineGoogle } from "react-icons/ai";
 import Link from "next/link";
-import { useState } from "react";
+import { FormEvent, useRef, useState } from "react";
+import signInSchema from "../../../schemas/SignInSchema";
+import { ZodError } from "zod";
+
+type InputErrors = {
+  [key: string]: string;
+};
 
 export default function SignInPanel() {
+  const formRef = useRef<HTMLFormElement>(null);
   const [passType, setPassType] = useState<"text" | "password">("password");
+  const [errors, setErrors] = useState<InputErrors>({});
+  const [loading, setLoading] = useState(false);
 
   const handlePasswordType = (): void => {
     setPassType((prev) => (prev === "text" ? "password" : "text"));
+  };
+
+  const handleSubmit = async (
+    event: FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    try {
+      event.preventDefault();
+      if (!formRef.current) throw Error("Form not valid");
+      setLoading(true);
+      const data = Object.fromEntries(new FormData(formRef.current));
+
+      signInSchema.parse(data);
+    } catch (e) {
+      setLoading(false);
+      if (e instanceof ZodError) {
+        setErrors(
+          e.errors.reduce(
+            (allErrors: InputErrors, currentError) => ({
+              ...allErrors,
+              ...{ [currentError.path[0]]: currentError.message },
+            }),
+            {}
+          )
+        );
+      } else if (e instanceof Error) {
+        setErrors({ generalError: e.message });
+      }
+    }
   };
 
   return (
@@ -36,7 +73,7 @@ export default function SignInPanel() {
           </li>
         </ul>
         <p className="text-center dark:text-slate-400">or</p>
-        <form className="grid gap-4">
+        <form className="grid gap-4" onSubmit={handleSubmit} ref={formRef}>
           <div className="grid">
             <label htmlFor="email" className="dark:text-slate-400 text-sm ml-3">
               Email
@@ -47,7 +84,15 @@ export default function SignInPanel() {
               className="auth-input"
               required
               type="email"
+              aria-errormessage="emailError"
             />
+            <span
+              id="emailError"
+              data-visible={!!errors.email}
+              className="form--error"
+            >
+              {errors.email}
+            </span>
           </div>
           <div className="grid">
             <label
@@ -78,22 +123,42 @@ export default function SignInPanel() {
             type="submit"
             title="Submit sign in form"
             className="blue-button"
+            disabled={loading}
           >
-            Sign in
+            {loading ? (
+              <FiLoader className="animate-spin text-xl" />
+            ) : (
+              "Sign in"
+            )}
           </button>
         </form>
-        <ul className="text-xs flex justify-between w-full px-3 dark:text-slate-400">
+        <ul
+          className={`text-xs flex justify-between w-full px-3 dark:text-slate-400 ${
+            loading && "pointer-events-none opacity-50"
+          }`}
+        >
           <li>
-            <Link href="remindPassword" className="text-hover" tabIndex={0}>
+            <Link
+              href="remindPassword"
+              className="text-hover"
+              tabIndex={loading ? undefined : 0}
+            >
               Remind password
             </Link>
           </li>
           <li>
-            <Link href="signup" className="text-hover" tabIndex={0}>
+            <Link
+              href="signup"
+              className="text-hover"
+              tabIndex={loading ? undefined : 0}
+            >
               Sign up
             </Link>
           </li>
         </ul>
+        <span data-visible={!!errors.generalError} className="form--error">
+          {errors.generalError}
+        </span>
       </section>
     </div>
   );
