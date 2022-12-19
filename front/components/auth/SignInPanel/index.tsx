@@ -4,7 +4,7 @@ import { AiOutlineGoogle } from "react-icons/ai";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function LoginPanel() {
+export default function SignInPanel() {
   const [passType, setPassType] = useState<"text" | "password">("password");
 
   const handlePasswordType = (): void => {
@@ -20,7 +20,7 @@ export default function LoginPanel() {
             <button
               type="button"
               className="p-2 rounded-lg dark:bg-slate-800 text-hover border-hover"
-              title="Login with GitHub"
+              title="Sign in with GitHub"
             >
               <FiGithub />
             </button>
@@ -29,7 +29,7 @@ export default function LoginPanel() {
             <button
               type="button"
               className="p-2 rounded-lg dark:bg-slate-800 text-hover border-hover"
-              title="Login with Google"
+              title="Sign in with Google"
             >
               <AiOutlineGoogle />
             </button>
@@ -38,10 +38,16 @@ export default function LoginPanel() {
         <p className="text-center dark:text-slate-400">or</p>
         <form className="grid gap-4">
           <div className="grid">
-            <label htmlFor="login" className="dark:text-slate-400 text-sm ml-3">
-              Login
+            <label htmlFor="email" className="dark:text-slate-400 text-sm ml-3">
+              Email
             </label>
-            <input name="login" id="login" className="auth-input" required />
+            <input
+              name="email"
+              id="email"
+              className="auth-input"
+              required
+              type="email"
+            />
           </div>
           <div className="grid">
             <label
@@ -70,10 +76,10 @@ export default function LoginPanel() {
           </div>
           <button
             type="submit"
-            title="Submit login form"
+            title="Submit sign in form"
             className="blue-button"
           >
-            Login
+            Sign in
           </button>
         </form>
         <ul className="text-xs flex justify-between w-full px-3 dark:text-slate-400">
