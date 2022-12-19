@@ -18,7 +18,7 @@ async function signUpHandler(
   const { email, password, name } = req.body;
   const user = await getUserByEmail(email);
 
-  if (user) throw new ApiError(400, "This email has already been used");
+  if (user) throw new ApiError(409, "This email has already been used");
 
   const passwordHash = await bcrypt.hash(password, 10);
 
