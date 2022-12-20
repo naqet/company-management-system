@@ -1,39 +1,9 @@
 import ProjectPreview from "../../components/ProjectPreview";
-import { Project } from "../../types/Project";
+import { getProjects } from "../../prisma/repositories/Project";
 
-// TODO: add real data fetching
-const projects: Project[] = [
-  {
-    id: 1,
-    name: "Test project",
-    client: "Test client",
-    deadline: "2022-12-01",
-    completionPercentage: 45,
-  },
-  {
-    id: 2,
-    name: "Test project",
-    client: "Test client",
-    deadline: "2022-12-17",
-    completionPercentage: 45,
-  },
-  {
-    id: 3,
-    name: "Another project with a very very long title",
-    client: "Another client",
-    deadline: "2022-12-30",
-    completionPercentage: 78,
-  },
-  {
-    id: 4,
-    name: "Another project with a very very long title",
-    client: "Another client",
-    deadline: "2023-06-01",
-    completionPercentage: 78,
-  },
-];
+export default async function HomePage() {
+  const projects = await getProjects();
 
-export default function HomePage() {
   return (
     <main className="grid p-4 align-top w-full h-fit gap-4">
       <h1 className="text-2xl">

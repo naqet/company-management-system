@@ -27,7 +27,7 @@ async function signInHandler(
   if (!passwordHash) throw new ApiError(404, "Invalid email or password");
 
   const token = jwt.sign(
-    { id: user.id },
+    { id: user.id, role: user.role },
     process.env.JWT_SECRET as jwt.Secret,
     { expiresIn: "7 days" }
   );

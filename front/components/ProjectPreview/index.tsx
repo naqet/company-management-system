@@ -1,9 +1,9 @@
 "use client";
 
+import { Project } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
 import { BiDotsHorizontal } from "react-icons/bi";
-import { Project } from "../../types/Project";
 import ProgressBar from "../shared/ProgressBar";
 import TimeTag from "./TimeTag";
 
@@ -20,7 +20,7 @@ const ProjectPreview: React.FC<Props> = ({ project }) => {
     >
       <div className="grid grid-cols-[1fr_2rem] gap-1 grid-rows-1 items-center">
         <h3 className="font-semibold text-ellipsis overflow-hidden w-full whitespace-nowrap">
-          {project.name}
+          {project.title}
         </h3>
         <button
           type="button"

@@ -1,7 +1,7 @@
 import { FiClock } from "react-icons/fi";
 
 type Props = {
-  deadline: string;
+  deadline: Date;
 };
 
 const TimeTag: React.FC<Props> = ({ deadline }) => {
