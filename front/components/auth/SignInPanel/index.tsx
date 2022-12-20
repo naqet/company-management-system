@@ -77,27 +77,6 @@ export default function SignInPanel() {
     <div className="max-w-md w-[90%]">
       <h1 className="text-center mb-2 text-2xl font-semibold">Welcome back</h1>
       <section className="dark:border-slate-700 border-1 p-4 rounded-lg grid gap-2">
-        <ul className="flex gap-4 justify-center mx-auto text-3xl md:text-xl">
-          <li>
-            <button
-              type="button"
-              className="p-2 rounded-lg dark:bg-slate-800 text-hover border-hover"
-              title="Sign in with GitHub"
-            >
-              <FiGithub />
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-              className="p-2 rounded-lg dark:bg-slate-800 text-hover border-hover"
-              title="Sign in with Google"
-            >
-              <AiOutlineGoogle />
-            </button>
-          </li>
-        </ul>
-        <p className="text-center dark:text-slate-400">or</p>
         <form className="grid gap-4" onSubmit={handleSubmit} ref={formRef}>
           <div className="grid">
             <label htmlFor="email" className="dark:text-slate-400 text-sm ml-3">
