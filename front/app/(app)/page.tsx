@@ -4,6 +4,18 @@ import { getProjects } from "../../prisma/repositories/Project";
 export default async function HomePage() {
   const projects = await getProjects();
 
+  if (!projects.length)
+    return (
+      <main className="grid w-full place-items-center">
+        <div className="grid justify-center gap-4">
+          <h1 className="text-2xl">No projects found</h1>
+          <button type="button" className="blue-button" title="Add new project">
+            Add new project
+          </button>
+        </div>
+      </main>
+    );
+
   return (
     <main className="grid p-4 align-top w-full h-fit gap-4">
       <h1 className="text-2xl">
