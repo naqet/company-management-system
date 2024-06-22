@@ -10,14 +10,14 @@ type HandlerFunc func(w http.ResponseWriter, r *http.Request) error
 type App struct {
 	path string
 	mux  *http.ServeMux
-	db   *gorm.DB
+	Db   *gorm.DB
 }
 
 func New(db *gorm.DB) *App {
 	return &App{
 		path: "",
 		mux:  http.NewServeMux(),
-		db:   db,
+		Db:   db,
 	}
 }
 
@@ -25,7 +25,7 @@ func (a *App) Group(path string) *App {
 	return &App{
 		path: a.path + path,
 		mux:  a.mux,
-		db:   a.db,
+		Db:   a.Db,
 	}
 }
 

@@ -3,12 +3,14 @@ package main
 import (
 	"github.com/naqet/company-management-system/internal/db"
 	"github.com/naqet/company-management-system/internal/handlers"
+	"github.com/naqet/company-management-system/pkg/cenv"
 	"github.com/naqet/company-management-system/pkg/chttp"
 
 	"log/slog"
 )
 
 func main() {
+    cenv.Init()
     database := db.Init()
 	app := chttp.New(database)
 
