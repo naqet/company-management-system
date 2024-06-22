@@ -25,3 +25,5 @@ tmp/
 *_templ.go
 
 sqlite.db
+
+.env
