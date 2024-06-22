@@ -1,17 +1,22 @@
 package main
 
 import (
+	"github.com/naqet/company-management-system/internal/db"
+	"github.com/naqet/company-management-system/internal/handlers"
 	"github.com/naqet/company-management-system/pkg/chttp"
 
 	"log/slog"
 )
 
 func main() {
-	app := chttp.New()
+    database := db.Init()
+	app := chttp.New(database)
 
 	app.ServeDir("/static/", "./static")
 
-    println("Running server...")
+    handlers.NewAuthHandler(app)
+
+    println("App running...")
 	err := app.ListenAndServe("localhost:3000")
 
 	if err != nil {

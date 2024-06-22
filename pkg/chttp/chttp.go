@@ -1,22 +1,40 @@
 package chttp
 
-import "net/http"
+import (
+	"net/http"
+
+	"gorm.io/gorm"
+)
 
 type HandlerFunc func(w http.ResponseWriter, r *http.Request) error
 type App struct {
 	path string
 	mux  *http.ServeMux
+	db   *gorm.DB
 }
 
-func New() *App {
+func New(db *gorm.DB) *App {
 	return &App{
 		path: "",
 		mux:  http.NewServeMux(),
+		db:   db,
 	}
 }
 
-func (a *App) Route(path string, fn HandlerFunc) {
-	a.mux.HandleFunc(path, withErrorHandling(fn))
+func (a *App) Group(path string) *App {
+	return &App{
+		path: a.path + path,
+		mux:  a.mux,
+		db:   a.db,
+	}
+}
+
+func (a *App) Get(path string, fn HandlerFunc) {
+	a.mux.HandleFunc("GET "+a.path+path, withErrorHandling(fn))
+}
+
+func (a *App) Post(path string, fn HandlerFunc) {
+	a.mux.HandleFunc("POST "+a.path+path, withErrorHandling(fn))
 }
 
 func (a *App) ServeDir(pattern, dir string) {
@@ -24,5 +42,5 @@ func (a *App) ServeDir(pattern, dir string) {
 }
 
 func (a *App) ListenAndServe(addr string) error {
-    return http.ListenAndServe(addr, a.mux)
+	return http.ListenAndServe(addr, a.mux)
 }
