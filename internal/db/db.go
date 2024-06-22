@@ -36,6 +36,7 @@ func Init() *gorm.DB {
 
 	db.AutoMigrate(
         &User{},
+        &Project{},
     )
 
     if seed {

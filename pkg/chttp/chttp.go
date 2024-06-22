@@ -29,6 +29,7 @@ func (a *App) Group(path string) *App {
 		path: a.path + path,
 		mux:  a.mux,
 		Db:   a.Db,
+        middlewares: a.middlewares,
 	}
 }
 

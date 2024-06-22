@@ -1,0 +1,18 @@
+package vproject;
+
+import "github.com/naqet/company-management-system/views/layout"
+
+templ CreatePage() {
+	@vlayout.Base() {
+		@vlayout.Header()
+		<main class="container">
+			<form hx-post="/project" hx-swap="none">
+				<label>
+					Title
+					<input name="title" required/>
+				</label>
+				<button>Create</button>
+			</form>
+		</main>
+	}
+}

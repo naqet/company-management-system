@@ -1,7 +1,7 @@
 # Things to do
-- [ ] Auth
-- - [ ] Sign up
-- - [ ] Login
+- [x] Auth
+- - [x] Sign up
+- - [x] Login
 - [ ] Create project
 - [ ] Create team
 - [ ] Create sprint

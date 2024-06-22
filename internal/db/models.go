@@ -20,8 +20,15 @@ func (b *Base) BeforeCreate(tx *gorm.DB) error {
 
 type User struct {
 	Base
-	Name              string `json:"name"`
-	Email             string `json:"email" gorm:"unique"`
-	Password          string `json:"password"`
-	PasswordConfirmed bool   `json:"passwordConfirmed" gorm:"default:false"`
+	Name              string    `json:"name"`
+	Email             string    `json:"email" gorm:"unique"`
+	Password          string    `json:"password"`
+	PasswordConfirmed bool      `json:"passwordConfirmed" gorm:"default:false"`
+	OwnedProjects     []Project `json:"ownedProjects" gorm:"foreignKey:OwnerEmail;references:Email"`
+}
+
+type Project struct {
+	Base
+	Title      string `json:"title" gorm:"unique"`
+	OwnerEmail string `json:"ownerEmail"`
 }

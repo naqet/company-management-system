@@ -24,6 +24,7 @@ func main() {
     })
 
     handlers.NewAuthHandler(app)
+    handlers.NewProjectHandler(app)
 
     println("App running...")
 	err := app.ListenAndServe("localhost:3000")
