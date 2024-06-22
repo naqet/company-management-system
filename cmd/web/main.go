@@ -1,18 +1,21 @@
 package main
 
 import (
-	"net/http"
+	"github.com/naqet/company-management-system/pkg/chttp"
 
-	vlayout "github.com/naqet/company-management-system/views/layout"
+	"log/slog"
 )
 
 func main() {
-	mux := http.NewServeMux()
+	app := chttp.New()
 
-	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		vlayout.Base().Render(r.Context(), w)
-	})
+	app.ServeDir("/static/", "./static")
 
-	http.ListenAndServe("localhost:3000", mux)
+    println("Running server...")
+	err := app.ListenAndServe("localhost:3000")
+
+	if err != nil {
+		slog.Error(err.Error())
+		panic("App crashed")
+	}
 }
