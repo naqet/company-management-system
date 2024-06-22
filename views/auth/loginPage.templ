@@ -3,19 +3,21 @@ package vauth;
 import "github.com/naqet/company-management-system/views/layout"
 
 templ LoginPage() {
-	@vlayout.Base() {
-        @vlayout.Header()
-		<form class="container" hx-post="/auth/login" hx-ext="json-enc" hx-trigger="submit" hx-swap="none">
-			<label>
-				Email
-				<input name="email" type="email"/>
-			</label>
-			<label>
-				Password
-				<input name="password" type="password"/>
-			</label>
-			<button>Submit</button>
-            <a href="/auth/signup">Create account</a>
-		</form>
-	}
+@vlayout.Base() {
+@Header()
+<main class="container">
+    <form hx-post="/auth/login" hx-ext="json-enc" hx-trigger="submit" hx-swap="none">
+        <label>
+            Email
+            <input name="email" type="email" />
+        </label>
+        <label>
+            Password
+            <input name="password" type="password" />
+        </label>
+        <button>Submit</button>
+        <a href="/auth/signup">Create account</a>
+    </form>
+</main>
+}
 }

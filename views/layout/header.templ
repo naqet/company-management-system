@@ -1,25 +1,42 @@
 package vlayout;
 
 templ Header() {
-	<header class="container">
-		<nav>
-			<ul>
-				<li>Hello</li>
-			</ul>
-			<ul>
-				<li>
-					<a href="/">Home</a>
-				</li>
-				<li>
-					<a href="/">Home</a>
-				</li>
-				<li>
-					<a href="/">Home</a>
-				</li>
-				<li>
-					<a href="/">Home</a>
-				</li>
-			</ul>
-		</nav>
-	</header>
+<header class="container">
+    <nav>
+        <ul>
+            <li>
+                <a href="/">
+                    @Logo()
+                </a>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li>
+                <details class="dropdown">
+                    <summary>Account</summary>
+                    <ul>
+                        <li>
+                            <a href="/profile">Profile</a>
+                        </li>
+                        <li>
+                            <a href="/settings">Settings</a>
+                        </li>
+                        <li>
+                            <a href="/auth/logout" hx-post="/auth/logout">Log out</a>
+                        </li>
+                    </ul>
+                </details>
+            </li>
+        </ul>
+    </nav>
+</header>
 }

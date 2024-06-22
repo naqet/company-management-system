@@ -27,6 +27,7 @@ func NewAuthHandler(app *chttp.App) {
 	route.Get("/login", h.loginPage)
 	route.Get("/signup", h.signUpPage)
 	route.Post("/login", h.login)
+	route.Post("/logout", h.logout)
 	route.Post("/signup", h.signUp)
 }
 
@@ -134,6 +135,24 @@ func (h *authHandler) signUp(w http.ResponseWriter, r *http.Request) error {
 
 	w.WriteHeader(http.StatusCreated)
 	w.Write([]byte(http.StatusText(http.StatusCreated)))
+	return nil
+}
+
+func (h *authHandler) logout(w http.ResponseWriter, r *http.Request) error {
+	http.SetCookie(w, &http.Cookie{
+		Name:     "Authorization",
+		Value:    "",
+		Path:     "/",
+		MaxAge:   -1,
+		Secure:   true,
+		HttpOnly: true,
+		SameSite: http.SameSiteStrictMode,
+	})
+
+	if utils.IsHtmxRequest(r) {
+		utils.AddHtmxRedirect(w, "/auth/login")
+	}
+
 	return nil
 }
 
