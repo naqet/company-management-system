@@ -31,4 +31,13 @@ type Project struct {
 	Base
 	Title      string `json:"title" gorm:"unique"`
 	OwnerEmail string `json:"ownerEmail"`
+	Sprints    []Sprint
+}
+
+type Sprint struct {
+	Base
+	Name      string    `json:"name" gorm:"unique"`
+	Start     time.Time `json:"start" gorm:"unique"`
+	End       time.Time `json:"end" gorm:"unique"`
+	ProjectId string    `json:"projectId"`
 }

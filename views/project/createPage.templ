@@ -1,11 +1,15 @@
 package vproject;
 
 import "github.com/naqet/company-management-system/views/layout"
+import "github.com/naqet/company-management-system/views/sprint"
 
 templ CreatePage() {
 	@vlayout.Base() {
 		@vlayout.Header()
 		<main class="container">
+			<section>
+				@vsprint.CreateModal()
+			</section>
 			<form hx-post="/project" hx-swap="none">
 				<label>
 					Title

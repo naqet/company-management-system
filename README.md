@@ -2,7 +2,7 @@
 - [x] Auth
 - - [x] Sign up
 - - [x] Login
-- [ ] Create project
+- [x] Create project
 - [ ] Create team
 - [ ] Create sprint
 - [ ] Create epic
@@ -12,6 +12,7 @@
 - - [ ] Sorting
 - - [ ] Filtering
 - - [ ] Draggable
+- [ ] Data Validation
 
 ## Bonus
 - [ ] Chat
