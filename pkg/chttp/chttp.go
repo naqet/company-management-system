@@ -8,6 +8,8 @@ import (
 
 type HandlerFunc func(w http.ResponseWriter, r *http.Request) error
 type Middleware func(next http.Handler, path string) HandlerFunc
+type FuncMiddleware func(next HandlerFunc) HandlerFunc
+
 type App struct {
 	path        string
 	mux         *http.ServeMux

@@ -28,15 +28,16 @@ func NewSprintHandler(app *chttp.App) {
 
 func (h *sprintHandler) create(w http.ResponseWriter, r *http.Request) error {
 	type request struct {
-		Name  string     `json:"name"`
-		Start utils.Time `json:"start"`
-		End   utils.Time `json:"end"`
+		Name      string     `json:"name"`
+		ProjectId string     `json:"projectId"`
+		Start     utils.Time `json:"start"`
+		End       utils.Time `json:"end"`
 	}
 
 	var data request
 	utils.GetDataFromBody(r.Body, &data)
 
-	err := h.db.Create(&db.Sprint{Name: data.Name, Start: time.Time(data.Start), End: time.Time(data.End)}).Error
+	err := h.db.Create(&db.Sprint{Name: data.Name, Start: time.Time(data.Start), End: time.Time(data.End), ProjectId: data.ProjectId}).Error
 
 	if errors.Is(err, gorm.ErrDuplicatedKey) {
 		return chttp.BadRequestError("Sprint with such title already exists")

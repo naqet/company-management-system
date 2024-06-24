@@ -1,13 +1,20 @@
 package vhome;
 
 import "github.com/naqet/company-management-system/views/layout"
+import "github.com/naqet/company-management-system/internal/db"
 
-templ Base() {
-@vlayout.Base() {
-@vlayout.Header()
-<main class="container">
-    <a href="/project/create">New project</a>
-    <a href="/sprint/create">New sprint</a>
-</main>
-}
+templ Base(projects []db.Project) {
+	@vlayout.Base() {
+		@vlayout.Header()
+		<main class="container">
+			<a href="/project/create">New project</a>
+			<ul>
+				for _, project := range projects {
+					<li>
+						<a href={ templ.SafeURL("/project/" + project.Key) }>{ project.Title }</a>
+					</li>
+				}
+			</ul>
+		</main>
+	}
 }

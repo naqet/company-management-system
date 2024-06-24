@@ -3,35 +3,40 @@ package vsprint;
 import "time"
 import "github.com/naqet/company-management-system/internal/utils"
 
-templ CreateModal() {
-<button onclick="document.querySelector('#sprint-modal').showModal()" class="outline">Add Sprint</button>
-<dialog id="sprint-modal">
-    <article>
-        <header>
-            <form method="dialog">
-                <button aria-label="Close" rel="prev"></button>
-            </form>
-            <p>
-                <strong>Create new sprint</strong>
-            </p>
-        </header>
-        <form hx-post="/sprint" hx-swap="none" hx-ext="json-enc">
-            <label>
-                Name
-                <input name="name" required />
-            </label>
-            <label>
-                Start date
-                <input name="start" type="datetime-local"
-                    onchange="this.form.querySelector('[name=end]').min = this.value" min={
-                    time.Now().Format(utils.TimeFormat) } required />
-            </label>
-            <label>
-                End date
-                <input name="end" type="datetime-local" min={ time.Now().Format(utils.TimeFormat) } required />
-            </label>
-            <button>Create</button>
-        </form>
-    </article>
-</dialog>
+templ CreateModal(projectId string) {
+	<button onclick="document.querySelector('#sprint-modal').showModal()" class="outline">Add Sprint</button>
+	<dialog id="sprint-modal">
+		<article>
+			<header>
+				<form method="dialog">
+					<button aria-label="Close" rel="prev"></button>
+				</form>
+				<p>
+					<strong>Create new sprint</strong>
+				</p>
+			</header>
+			<form hx-post="/sprint" hx-swap="none" hx-ext="json-enc">
+				<input hidden value={ projectId } name="projectId"/>
+				<label>
+					Name
+					<input name="name" required/>
+				</label>
+				<label>
+					Start date
+					<input
+						name="start"
+						type="datetime-local"
+						onchange="this.form.querySelector('[name=end]').min = this.value"
+						min={ time.Now().Format(utils.TimeFormat) }
+						required
+					/>
+				</label>
+				<label>
+					End date
+					<input name="end" type="datetime-local" min={ time.Now().Format(utils.TimeFormat) } required/>
+				</label>
+				<button>Create</button>
+			</form>
+		</article>
+	</dialog>
 }

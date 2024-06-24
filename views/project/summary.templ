@@ -1,0 +1,17 @@
+package vproject;
+
+import "github.com/naqet/company-management-system/views/layout"
+import "github.com/naqet/company-management-system/internal/db"
+import "github.com/naqet/company-management-system/views/sprint"
+
+templ Summary(data db.Project) {
+	@vlayout.Base() {
+		@vlayout.Header()
+		<main class="container">
+			<section>
+				@vsprint.CreateModal(data.ID)
+			</section>
+			<h1>{ data.Title }</h1>
+		</main>
+	}
+}

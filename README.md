@@ -4,7 +4,7 @@
 - - [x] Login
 - [x] Create project
 - [ ] Create team
-- [ ] Create sprint
+- [x] Create sprint
 - [ ] Create epic
 - [ ] Create story
 - [ ] Create task
