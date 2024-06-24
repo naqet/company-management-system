@@ -25,6 +25,7 @@ type User struct {
 	Password          string    `json:"password"`
 	PasswordConfirmed bool      `json:"passwordConfirmed" gorm:"default:false"`
 	OwnedProjects     []Project `json:"ownedProjects" gorm:"foreignKey:OwnerEmail;references:Email"`
+    Teams             []Team    `json:"teams" gorm:"many2many:team_members;foreignKey:Email;joinForeignKey:UserEmail"`
 }
 
 type Project struct {
@@ -33,6 +34,16 @@ type Project struct {
 	Key        string `json:"key" gorm:"unique"`
 	OwnerEmail string `json:"ownerEmail"`
 	Sprints    []Sprint
+	Teams      []Team
+}
+
+type Team struct {
+	Base
+	Name        string `json:"name" gorm:"unique"`
+	ProjectId   string `json:"projectId"`
+    Leader      User   `json:"leader" gorm:"references:Email"`
+	LeaderEmail string `json:"leaderEmail"`
+    Members     []User `json:"members" gorm:"many2many:team_members;references:Email"`
 }
 
 type Sprint struct {

@@ -3,6 +3,8 @@ package chttp
 import (
 	"log/slog"
 	"net/http"
+
+	"github.com/naqet/company-management-system/internal/utils"
 )
 
 const (
@@ -71,6 +73,12 @@ func withErrorHandling(fn HandlerFunc) http.HandlerFunc {
             slog.Error(err.Error())
 			switch e := err.(type) {
 			case HttpError:
+                if e.Status() == http.StatusUnauthorized {
+                    loginPagePath := "/auth/login"
+                    utils.AddHtmxRedirect(w, loginPagePath)
+                    http.Redirect(w, r, loginPagePath, http.StatusSeeOther)
+                    return
+                }
 				http.Error(w, e.Error(), e.Status())
 			default:
 				http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)

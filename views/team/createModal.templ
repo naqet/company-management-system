@@ -1,0 +1,65 @@
+package vteam;
+
+templ CreateModal(projectId string) {
+<button onclick="document.querySelector('#team-modal').showModal()" class="outline">Add Team</button>
+<dialog id="team-modal">
+    <article>
+        <header>
+            <form method="dialog">
+                <button aria-label="Close" rel="prev"></button>
+            </form>
+            <p>
+                <strong>Create new team</strong>
+            </p>
+        </header>
+        <form hx-post="/team" hx-swap="none" hx-ext="json-enc">
+            <input hidden value={ projectId } name="projectId" />
+            <label>
+                Name
+                <input name="name" required />
+            </label>
+            <label style="width:100%">
+                Team Leader
+                <select name="leaderEmail">
+                    for range 10 {
+                        <option value="test@gmail.com">Test</option>
+                    }
+                </select>
+            </label>
+            <label style="width:100%">
+                Members
+                <details class="dropdown">
+                    <summary></summary>
+                    <ul>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="members" value="test@gmail.com" />
+                                Test
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="members" value="test@gmail.com" />
+                                Test
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="members" value="test@gmail.com" />
+                                Test
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="members" value="test@gmail.com" />
+                                Test
+                            </label>
+                        </li>
+                    </ul>
+                </details>
+            </label>
+            <button>Create</button>
+        </form>
+    </article>
+</dialog>
+}

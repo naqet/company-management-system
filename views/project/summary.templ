@@ -3,6 +3,7 @@ package vproject;
 import "github.com/naqet/company-management-system/views/layout"
 import "github.com/naqet/company-management-system/internal/db"
 import "github.com/naqet/company-management-system/views/sprint"
+import "github.com/naqet/company-management-system/views/team"
 
 templ Summary(data db.Project) {
 	@vlayout.Base() {
@@ -10,6 +11,7 @@ templ Summary(data db.Project) {
 		<main class="container">
 			<section>
 				@vsprint.CreateModal(data.ID)
+				@vteam.CreateModal(data.ID)
 			</section>
 			<h1>{ data.Title }</h1>
 		</main>

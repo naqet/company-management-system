@@ -3,7 +3,7 @@
 - - [x] Sign up
 - - [x] Login
 - [x] Create project
-- [ ] Create team
+- [x] Create team
 - [x] Create sprint
 - [ ] Create epic
 - [ ] Create story
