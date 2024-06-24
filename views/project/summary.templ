@@ -6,14 +6,38 @@ import "github.com/naqet/company-management-system/views/sprint"
 import "github.com/naqet/company-management-system/views/team"
 
 templ Summary(data db.Project) {
-	@vlayout.Base() {
-		@vlayout.Header()
-		<main class="container">
-			<section>
-				@vsprint.CreateModal(data.ID)
-				@vteam.CreateModal(data.ID)
-			</section>
-			<h1>{ data.Title }</h1>
-		</main>
-	}
+@vlayout.Base() {
+@vlayout.Header()
+<main class="container">
+    <section>
+        @vsprint.CreateModal(data.ID)
+        @vteam.CreateModal(data.ID)
+    </section>
+    <h1>{ data.Title }</h1>
+    <section>
+        <h2>Sprints</h2>
+        if len(data.Sprints) > 0 {
+        <ul>
+            for _, story := range data.Sprints {
+            <li>{ story.Name }</li>
+            }
+        </ul>
+        } else {
+        <small>No data</small>
+        }
+    </section>
+    <section>
+        <h2>Epics</h2>
+        if len(data.Epics) > 0 {
+        <ul>
+            for _, epic := range data.Epics {
+            <li>{ epic.Title }</li>
+            }
+        </ul>
+        } else {
+        <small>No data</small>
+        }
+    </section>
+</main>
+}
 }

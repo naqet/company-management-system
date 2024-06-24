@@ -18,6 +18,15 @@ func (b *Base) BeforeCreate(tx *gorm.DB) error {
 	return nil
 }
 
+type Issue struct {
+	ID          string    `json:"id" gorm:"primaryKey"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
+	ProjectKey  string    `json:"projectKey"`
+	Title       string    `json:"title"`
+	Description string    `json:"description"`
+}
+
 type User struct {
 	Base
 	Name              string    `json:"name"`
@@ -32,11 +41,11 @@ type Project struct {
 	Base
 	Title      string   `json:"title" gorm:"unique"`
 	Key        string   `json:"key" gorm:"unique"`
-    Owner      User     `json:"owner" gorm:"references:Email"`
+	Owner      User     `json:"owner" gorm:"references:Email"`
 	OwnerEmail string   `json:"ownerEmail"`
+	Teams      []Team   `json:"team" gorm:"foreignKey:ProjectKey"`
 	Epics      []Epic   `json:"epics" gorm:"foreignKey:ProjectKey"`
 	Sprints    []Sprint `json:"sprints" gorm:"foreignKey:ProjectKey"`
-	Teams      []Team   `json:"team" gorm:"foreignKey:ProjectKey"`
 }
 
 type Team struct {
@@ -57,7 +66,17 @@ type Sprint struct {
 }
 
 type Epic struct {
-	Base
-	Title      string `json:"title" gorm:"unique"`
-	ProjectKey string `json:"projectKey"`
+	Issue
+	Stories []Story `json:"stories"`
+}
+
+type Story struct {
+	Issue
+	EpicId *string `json:"epicId"`
+	Tasks  []Task  `json:"tasks"`
+}
+
+type Task struct {
+	Issue
+	StoryId *string `json:"storyId"`
 }

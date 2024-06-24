@@ -14,6 +14,9 @@ templ Base(projects []db.Project) {
             <header>
                 <a href={ templ.SafeURL("/project/" + project.Key) }>{ project.Title }</a>
             </header>
+            <main>
+                Owner: {project.Owner.Name}
+            </main>
         </article>
         }
     </section>
