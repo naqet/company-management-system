@@ -3,7 +3,7 @@ package vsprint;
 import "time"
 import "github.com/naqet/company-management-system/internal/utils"
 
-templ CreateModal(projectId string) {
+templ CreateModal(projectKey string) {
 	<button onclick="document.querySelector('#sprint-modal').showModal()" class="outline">Add Sprint</button>
 	<dialog id="sprint-modal">
 		<article>
@@ -16,7 +16,7 @@ templ CreateModal(projectId string) {
 				</p>
 			</header>
 			<form hx-post="/sprint" hx-swap="none" hx-ext="json-enc">
-				<input hidden value={ projectId } name="projectId"/>
+				<input hidden value={ projectKey } name="projectKey"/>
 				<label>
 					Name
 					<input name="name" required/>

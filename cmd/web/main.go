@@ -22,7 +22,7 @@ func main() {
 
 	app.Get("/{$}", middlewares.AuthFunc(func(w http.ResponseWriter, r *http.Request) error {
         projects := []db.Project{}
-        database.Find(&projects)
+        database.Preload("Owner").Find(&projects)
 		return vhome.Base(projects).Render(r.Context(), w)
 	}))
 

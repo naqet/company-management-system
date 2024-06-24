@@ -12,11 +12,11 @@ import (
 	"gorm.io/gorm"
 )
 
-type sprintHandler struct {
+type epicHandler struct {
 	db *gorm.DB
 }
 
-func NewSprintHandler(app *chttp.App) {
+func NewEpicHandler(app *chttp.App) {
 	route := app.Group("/sprint")
 
 	route.Use(middlewares.Auth)
@@ -26,12 +26,12 @@ func NewSprintHandler(app *chttp.App) {
 	route.Post("", h.create)
 }
 
-func (h *sprintHandler) create(w http.ResponseWriter, r *http.Request) error {
+func (h *epicHandler) create(w http.ResponseWriter, r *http.Request) error {
 	type request struct {
-		Name       string     `json:"name"`
+		Name      string     `json:"name"`
 		ProjectKey string     `json:"projectKey"`
-		Start      utils.Time `json:"start"`
-		End        utils.Time `json:"end"`
+		Start     utils.Time `json:"start"`
+		End       utils.Time `json:"end"`
 	}
 
 	var data request

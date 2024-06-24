@@ -29,7 +29,7 @@ func (h *teamHandler) create(w http.ResponseWriter, r *http.Request) error {
 	type request struct {
 		Name        string          `json:"name"`
 		LeaderEmail string          `json:"leaderEmail"`
-		ProjectId   string          `json:"projectId"`
+		ProjectKey   string          `json:"projectKey"`
 		Members     utils.StringArr `json:"members"`
 	}
 
@@ -39,6 +39,7 @@ func (h *teamHandler) create(w http.ResponseWriter, r *http.Request) error {
 	team := db.Team{
 		Name:        data.Name,
 		LeaderEmail: data.LeaderEmail,
+        ProjectKey: data.ProjectKey,
 	}
 
 	for _, member := range data.Members {

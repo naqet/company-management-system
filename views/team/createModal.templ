@@ -1,6 +1,6 @@
 package vteam;
 
-templ CreateModal(projectId string) {
+templ CreateModal(projectKey string) {
 <button onclick="document.querySelector('#team-modal').showModal()" class="outline">Add Team</button>
 <dialog id="team-modal">
     <article>
@@ -13,7 +13,7 @@ templ CreateModal(projectId string) {
             </p>
         </header>
         <form hx-post="/team" hx-swap="none" hx-ext="json-enc">
-            <input hidden value={ projectId } name="projectId" />
+            <input hidden value={ projectKey } name="projectKey" />
             <label>
                 Name
                 <input name="name" required />

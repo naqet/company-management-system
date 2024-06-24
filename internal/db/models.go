@@ -25,31 +25,39 @@ type User struct {
 	Password          string    `json:"password"`
 	PasswordConfirmed bool      `json:"passwordConfirmed" gorm:"default:false"`
 	OwnedProjects     []Project `json:"ownedProjects" gorm:"foreignKey:OwnerEmail;references:Email"`
-    Teams             []Team    `json:"teams" gorm:"many2many:team_members;foreignKey:Email;joinForeignKey:UserEmail"`
+	Teams             []Team    `json:"teams" gorm:"many2many:team_members;foreignKey:Email;joinForeignKey:UserEmail"`
 }
 
 type Project struct {
 	Base
-	Title      string `json:"title" gorm:"unique"`
-	Key        string `json:"key" gorm:"unique"`
-	OwnerEmail string `json:"ownerEmail"`
-	Sprints    []Sprint
-	Teams      []Team
+	Title      string   `json:"title" gorm:"unique"`
+	Key        string   `json:"key" gorm:"unique"`
+    Owner      User     `json:"owner" gorm:"references:Email"`
+	OwnerEmail string   `json:"ownerEmail"`
+	Epics      []Epic   `json:"epics" gorm:"foreignKey:ProjectKey"`
+	Sprints    []Sprint `json:"sprints" gorm:"foreignKey:ProjectKey"`
+	Teams      []Team   `json:"team" gorm:"foreignKey:ProjectKey"`
 }
 
 type Team struct {
 	Base
 	Name        string `json:"name" gorm:"unique"`
-	ProjectId   string `json:"projectId"`
-    Leader      User   `json:"leader" gorm:"references:Email"`
+	ProjectKey  string `json:"projectKey"`
+	Leader      User   `json:"leader" gorm:"references:Email"`
 	LeaderEmail string `json:"leaderEmail"`
-    Members     []User `json:"members" gorm:"many2many:team_members;references:Email"`
+	Members     []User `json:"members" gorm:"many2many:team_members;references:Email"`
 }
 
 type Sprint struct {
 	Base
-	Name      string    `json:"name" gorm:"unique"`
-	Start     time.Time `json:"start"`
-	End       time.Time `json:"end"`
-	ProjectId string    `json:"projectId"`
+	Name       string    `json:"name" gorm:"unique"`
+	Start      time.Time `json:"start"`
+	End        time.Time `json:"end"`
+	ProjectKey string    `json:"projectKey"`
+}
+
+type Epic struct {
+	Base
+	Title      string `json:"title" gorm:"unique"`
+	ProjectKey string `json:"projectKey"`
 }
