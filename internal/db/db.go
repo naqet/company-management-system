@@ -45,7 +45,7 @@ func Init() *gorm.DB {
     )
 
     if seed {
-        //TODO: seed DB
+        initSeed(db)
         fmt.Println("DB seeded")
     }
 

@@ -22,7 +22,7 @@ type Issue struct {
 	ID          string    `json:"id" gorm:"primaryKey"`
 	CreatedAt   time.Time `json:"createdAt"`
 	UpdatedAt   time.Time `json:"updatedAt"`
-	ProjectKey  string    `json:"projectKey"`
+	ProjectKey  string    `json:"projectKey" gorm:"->"`
 	Title       string    `json:"title"`
 	Description string    `json:"description"`
 }
