@@ -5,9 +5,11 @@
 - [x] Create project
 - [x] Create team
 - [x] Create sprint
-- [ ] Create epic
-- [ ] Create story
-- [ ] Create task
+- [ ] Create issues
+- - [ ] Create epic type
+- - [ ] Create story type
+- - [ ] Create task type
+- - [ ] Add priority
 - [ ] Kanban board
 - - [ ] Sorting
 - - [ ] Filtering
@@ -25,6 +27,7 @@
 - - [ ] Change avatar
 - [ ] Support
 - - [ ] Ticket system
+- [ ] Add option to link issues
 
 
 ## Future

@@ -10,7 +10,7 @@ import (
 func initSeed(db *gorm.DB) {
     seedUsers(db)
     seedProjects(db)
-    seedEpics(db)
+    //seedEpics(db)
 }
 
 func seedProjects(db *gorm.DB) {
@@ -30,47 +30,47 @@ func seedProjects(db *gorm.DB) {
     db.Create(&projects)
 }
 
-func seedEpics(db *gorm.DB) {
-    epics := []*Epic{
-        {
-        	Issue:   Issue{
-        		ProjectKey:  "HW",
-        		Title:       "First epic",
-        		Description: "",
-        	},
-        },
-        {
-        	Issue:   Issue{
-        		ProjectKey:  "HW",
-        		Title:       "Second epic",
-        		Description: "",
-        	},
-        },
-    }
-
-    db.Create(&epics)
-}
-
-func seedStories(db *gorm.DB) {
-    stories := []*Story{
-        {
-        	Issue:   Issue{
-        		ProjectKey:  "HW",
-        		Title:       "First story",
-        		Description: "",
-        	},
-        },
-        {
-        	Issue:   Issue{
-        		ProjectKey:  "HW",
-        		Title:       "Second story",
-        		Description: "",
-        	},
-        },
-    }
-
-    db.Create(&stories)
-}
+//func seedEpics(db *gorm.DB) {
+//    epics := []*Epic{
+//        {
+//        	Issue:   Issue{
+//        		ProjectKey:  "HW",
+//        		Title:       "First epic",
+//        		Description: "",
+//        	},
+//        },
+//        {
+//        	Issue:   Issue{
+//        		ProjectKey:  "HW",
+//        		Title:       "Second epic",
+//        		Description: "",
+//        	},
+//        },
+//    }
+//
+//    db.Create(&epics)
+//}
+//
+//func seedStories(db *gorm.DB) {
+//    stories := []*Story{
+//        {
+//        	Issue:   Issue{
+//        		ProjectKey:  "HW",
+//        		Title:       "First story",
+//        		Description: "",
+//        	},
+//        },
+//        {
+//        	Issue:   Issue{
+//        		ProjectKey:  "HW",
+//        		Title:       "Second story",
+//        		Description: "",
+//        	},
+//        },
+//    }
+//
+//    db.Create(&stories)
+//}
 
 func seedUsers(db *gorm.DB) {
 	users := []*User{

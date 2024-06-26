@@ -18,15 +18,6 @@ func (b *Base) BeforeCreate(tx *gorm.DB) error {
 	return nil
 }
 
-type Issue struct {
-	ID          string    `json:"id" gorm:"primaryKey"`
-	CreatedAt   time.Time `json:"createdAt"`
-	UpdatedAt   time.Time `json:"updatedAt"`
-	ProjectKey  string    `json:"projectKey" gorm:"->"`
-	Title       string    `json:"title"`
-	Description string    `json:"description"`
-}
-
 type User struct {
 	Base
 	Name              string    `json:"name"`
@@ -44,7 +35,6 @@ type Project struct {
 	Owner      User     `json:"owner" gorm:"references:Email"`
 	OwnerEmail string   `json:"ownerEmail"`
 	Teams      []Team   `json:"team" gorm:"foreignKey:ProjectKey"`
-	Epics      []Epic   `json:"epics" gorm:"foreignKey:ProjectKey"`
 	Sprints    []Sprint `json:"sprints" gorm:"foreignKey:ProjectKey"`
 }
 
@@ -65,18 +55,18 @@ type Sprint struct {
 	ProjectKey string    `json:"projectKey"`
 }
 
-type Epic struct {
-	Issue
-	Stories []Story `json:"stories"`
+type Issue struct {
+	ID          uint      `json:"id" gorm:"primaryKey;autoincrement"`
+	Key         string    `json:"key"`
+	Type        IssueType `json:"type"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
+	ProjectKey  string    `json:"projectKey" gorm:"->"`
+	Title       string    `json:"title"`
+	Description string    `json:"description"`
 }
 
-type Story struct {
-	Issue
-	EpicId *string `json:"epicId"`
-	Tasks  []Task  `json:"tasks"`
-}
-
-type Task struct {
-	Issue
-	StoryId *string `json:"storyId"`
+type IssueType struct {
+	Base
+	Name string `json:"name" gorm:"unique:not null;check:title <> ''"`
 }
