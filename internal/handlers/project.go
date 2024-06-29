@@ -36,7 +36,7 @@ func (h *projectHandler) summaryPage(w http.ResponseWriter, r *http.Request) err
     key := r.PathValue("key")
 
     project := db.Project{}
-    err := h.db.Preload("Epics").Preload("Sprints").Where("key = ?", key).First(&project).Error
+    err := h.db.Preload("Sprints").Where("key = ?", key).First(&project).Error
 
     if errors.Is(err, gorm.ErrRecordNotFound) {
         return chttp.BadRequestError("Project with such key doesn't exist")

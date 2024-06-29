@@ -36,12 +36,13 @@ type Project struct {
 	OwnerEmail string   `json:"ownerEmail"`
 	Teams      []Team   `json:"team" gorm:"foreignKey:ProjectKey"`
 	Sprints    []Sprint `json:"sprints" gorm:"foreignKey:ProjectKey"`
+	Issues     []Issue  `json:"issues" gorm:"foreignKey:ProjectKey"`
 }
 
 type Team struct {
 	Base
 	Name        string `json:"name" gorm:"unique"`
-	ProjectKey  string `json:"projectKey"`
+	ProjectKey  string `json:"projectKey" gorm:"not null;check:project_key <> ''"`
 	Leader      User   `json:"leader" gorm:"references:Email"`
 	LeaderEmail string `json:"leaderEmail"`
 	Members     []User `json:"members" gorm:"many2many:team_members;references:Email"`
@@ -52,21 +53,21 @@ type Sprint struct {
 	Name       string    `json:"name" gorm:"unique"`
 	Start      time.Time `json:"start"`
 	End        time.Time `json:"end"`
-	ProjectKey string    `json:"projectKey"`
+	ProjectKey string    `json:"projectKey" gorm:"not null;check:project_key <> ''"`
 }
 
 type Issue struct {
 	ID          uint      `json:"id" gorm:"primaryKey;autoincrement"`
-	Key         string    `json:"key"`
-	Type        IssueType `json:"type"`
+	Type        Type      `json:"type"`
+	TypeId      string    `json:"typeId"`
 	CreatedAt   time.Time `json:"createdAt"`
 	UpdatedAt   time.Time `json:"updatedAt"`
-	ProjectKey  string    `json:"projectKey" gorm:"->"`
-	Title       string    `json:"title"`
+	ProjectKey  string    `json:"projectKey" gorm:"not null;check:project_key <> ''"`
+	Title       string    `json:"title" gorm:"unique;not null;check:title <> ''"`
 	Description string    `json:"description"`
 }
 
-type IssueType struct {
+type Type struct {
 	Base
-	Name string `json:"name" gorm:"unique:not null;check:title <> ''"`
+	Name string `json:"name" gorm:"unique:not null;check:name <> ''"`
 }

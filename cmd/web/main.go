@@ -30,6 +30,7 @@ func main() {
 	handlers.NewProjectHandler(app)
 	handlers.NewSprintHandler(app)
 	handlers.NewTeamHandler(app)
+	handlers.NewIssueHandler(app)
 
 	println("App running...")
 	err := app.ListenAndServe("localhost:3000")

@@ -39,6 +39,8 @@ func Init() *gorm.DB {
         &Project{},
         &Team{},
         &Sprint{},
+        &Issue{},
+        &Type{},
     )
 
     if seed {

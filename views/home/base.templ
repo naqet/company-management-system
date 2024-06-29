@@ -8,6 +8,7 @@ templ Base(projects []db.Project) {
 @vlayout.Header()
 <main class="container">
     <a href="/project/create" role="button" style="margin-bottom: var(--pico-block-spacing-vertical)">New project</a>
+    <a href="/issue/create" role="button" style="margin-bottom: var(--pico-block-spacing-vertical)">New issue</a>
     <section class="grid">
         for _, project := range projects {
         <article>

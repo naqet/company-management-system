@@ -8,69 +8,66 @@ import (
 )
 
 func initSeed(db *gorm.DB) {
-    seedUsers(db)
-    seedProjects(db)
-    //seedEpics(db)
+	seedUsers(db)
+	seedProjects(db)
+	seedIssueTypes(db)
+	seedIssues(db)
 }
 
 func seedProjects(db *gorm.DB) {
-    projects := []*Project{
-        {
-        	Title:      "Hello world",
-        	Key:        "HW",
-        	OwnerEmail: "test@gmail.com",
-        },
-        {
-        	Title:      "Another Project",
-        	Key:        "AP",
-        	OwnerEmail: "test@gmail.com",
-        },
-    }
+	projects := []*Project{
+		{
+			Title:      "Hello world",
+			Key:        "HW",
+			OwnerEmail: "test@gmail.com",
+		},
+		{
+			Title:      "Another Project",
+			Key:        "AP",
+			OwnerEmail: "test@gmail.com",
+		},
+	}
 
-    db.Create(&projects)
+	db.Create(&projects)
 }
 
-//func seedEpics(db *gorm.DB) {
-//    epics := []*Epic{
-//        {
-//        	Issue:   Issue{
-//        		ProjectKey:  "HW",
-//        		Title:       "First epic",
-//        		Description: "",
-//        	},
-//        },
-//        {
-//        	Issue:   Issue{
-//        		ProjectKey:  "HW",
-//        		Title:       "Second epic",
-//        		Description: "",
-//        	},
-//        },
-//    }
-//
-//    db.Create(&epics)
-//}
-//
-//func seedStories(db *gorm.DB) {
-//    stories := []*Story{
-//        {
-//        	Issue:   Issue{
-//        		ProjectKey:  "HW",
-//        		Title:       "First story",
-//        		Description: "",
-//        	},
-//        },
-//        {
-//        	Issue:   Issue{
-//        		ProjectKey:  "HW",
-//        		Title:       "Second story",
-//        		Description: "",
-//        	},
-//        },
-//    }
-//
-//    db.Create(&stories)
-//}
+func seedIssueTypes(db *gorm.DB) {
+	types := []*Type{
+		{
+			Name: "Epic",
+		},
+		{
+			Name: "User Story",
+		},
+		{
+			Name: "Task",
+		},
+	}
+
+	db.Create(&types)
+}
+
+func seedIssues(db *gorm.DB) {
+	issues := []*Issue{
+		{
+			ProjectKey:  "HW",
+			Title:       "First task",
+			Type:        Type{Name: "Task"},
+		},
+		{
+			ProjectKey:  "HW",
+			Title:       "First epic",
+			Type:        Type{Name: "Epic"},
+		},
+		{
+			ProjectKey:  "HW",
+			Title:       "First user story",
+			Type:        Type{Name: "User Story"},
+		},
+	}
+
+	db.Create(&issues)
+}
 
 func seedUsers(db *gorm.DB) {
 	users := []*User{
@@ -98,7 +95,7 @@ func seedUsers(db *gorm.DB) {
 		pass, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
 
 		if err != nil {
-            slog.Error("Error while seeding users: " + err.Error())
+			slog.Error("Error while seeding users: " + err.Error())
 			return
 		}
 		user.Password = string(pass)
