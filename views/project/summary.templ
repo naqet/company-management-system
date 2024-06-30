@@ -10,25 +10,23 @@ templ Summary(data db.Project) {
 @vlayout.Header()
 <main class="container">
     <section>
-        @vsprint.CreateModal(data.ID)
-        @vteam.CreateModal(data.ID)
+        @vsprint.CreateModal(data.Key)
+        @vteam.CreateModal(data.Key)
     </section>
-    <h1>{ data.Title }</h1>
+    <h1>{ data.Name }</h1>
     <section>
-        <h2>Sprints</h2>
         if len(data.Sprints) > 0 {
-        <ul>
-            for _, story := range data.Sprints {
-            <li>{ story.Name }</li>
+        <div>
+            for _, sprint := range data.Sprints {
+            <details>
+                <summary>{ sprint.Name }</summary>
+                @KanbanBoard(sprint.Issues)
+            </details>
             }
-        </ul>
+        </div>
         } else {
         <small>No data</small>
         }
-    </section>
-    <section>
-        <h2>Epics</h2>
-        <small>TODO</small>
     </section>
 </main>
 }

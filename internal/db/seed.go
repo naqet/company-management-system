@@ -10,6 +10,7 @@ import (
 func initSeed(db *gorm.DB) {
 	seedUsers(db)
 	seedProjects(db)
+	seedStatuses(db)
 	seedIssueTypes(db)
 	seedIssues(db)
 }
@@ -17,18 +18,37 @@ func initSeed(db *gorm.DB) {
 func seedProjects(db *gorm.DB) {
 	projects := []*Project{
 		{
-			Title:      "Hello world",
+			Name:      "Hello world",
 			Key:        "HW",
 			OwnerEmail: "test@gmail.com",
 		},
 		{
-			Title:      "Another Project",
+			Name:      "Another Project",
 			Key:        "AP",
 			OwnerEmail: "test@gmail.com",
 		},
 	}
 
 	db.Create(&projects)
+}
+
+func seedStatuses(db *gorm.DB) {
+	statuses := []*Status{
+		{
+			Name: TO_DO,
+		},
+		{
+			Name: IN_PROGRESS,
+		},
+		{
+			Name: IN_REVIEW,
+		},
+		{
+			Name: DONE,
+		},
+	}
+
+	db.Create(&statuses)
 }
 
 func seedIssueTypes(db *gorm.DB) {
@@ -50,19 +70,22 @@ func seedIssueTypes(db *gorm.DB) {
 func seedIssues(db *gorm.DB) {
 	issues := []*Issue{
 		{
-			ProjectKey:  "HW",
-			Title:       "First task",
-			Type:        Type{Name: "Task"},
+			ProjectKey: "HW",
+			Name:      "First task",
+			Type:       Type{Name: "Task"},
+			Status:     Status{Name: TO_DO},
 		},
 		{
-			ProjectKey:  "HW",
-			Title:       "First epic",
-			Type:        Type{Name: "Epic"},
+			ProjectKey: "HW",
+			Name:      "First epic",
+			Type:       Type{Name: "Epic"},
+			Status:     Status{Name: IN_PROGRESS},
 		},
 		{
-			ProjectKey:  "HW",
-			Title:       "First user story",
-			Type:        Type{Name: "User Story"},
+			ProjectKey: "HW",
+			Name:      "First user story",
+			Type:       Type{Name: "User Story"},
+			Status:     Status{Name: DONE},
 		},
 	}
 

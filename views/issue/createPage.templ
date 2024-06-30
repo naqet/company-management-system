@@ -1,0 +1,64 @@
+package vissue;
+
+import "github.com/naqet/company-management-system/views/layout"
+import "github.com/naqet/company-management-system/internal/db"
+import "github.com/naqet/company-management-system/views/components"
+
+templ CreatePage(projects []db.Project, types []db.Type, users []db.User) {
+	@vlayout.Base() {
+		@vlayout.Header()
+		<main class="container">
+			<form hx-post="/issue" hx-swap="none" hx-ext="json-enc">
+				<label>
+					Project
+					<select
+						name="projectKey"
+						required
+						hx-get="/components/sprint-select"
+						hx-swap="outerHTML"
+						hx-target="#sprint-select"
+					>
+						<option selected disabled value="">
+							Select
+						</option>
+						for _, project := range projects {
+							<option value={ project.Key }>{ project.Name }</option>
+						}
+					</select>
+				</label>
+				@vcomponents.SprintSelect([]db.Sprint{})
+				<label>
+					Type
+					<select name="type" required>
+						<option selected disabled value="">
+							Select
+						</option>
+						for _, issueType := range types {
+							<option value={ issueType.ID }>{ issueType.Name }</option>
+						}
+					</select>
+				</label>
+				<label>
+					Name
+					<input name="name" autocomplete="off" required/>
+				</label>
+				<label>
+					Description
+					<textarea name="description" rows="3"></textarea>
+				</label>
+				<label>
+					Assignee
+					<select name="assignee" required>
+						<option selected disabled value="">
+							Select
+						</option>
+						for _, user := range users {
+							<option value={ user.ID }>{ user.Name }</option>
+						}
+					</select>
+				</label>
+				<button>Create</button>
+			</form>
+		</main>
+	}
+}

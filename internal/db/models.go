@@ -30,13 +30,12 @@ type User struct {
 
 type Project struct {
 	Base
-	Title      string   `json:"title" gorm:"unique"`
+	Name       string   `json:"name" gorm:"unique"`
 	Key        string   `json:"key" gorm:"unique"`
 	Owner      User     `json:"owner" gorm:"references:Email"`
 	OwnerEmail string   `json:"ownerEmail"`
 	Teams      []Team   `json:"team" gorm:"foreignKey:ProjectKey"`
 	Sprints    []Sprint `json:"sprints" gorm:"foreignKey:ProjectKey"`
-	Issues     []Issue  `json:"issues" gorm:"foreignKey:ProjectKey"`
 }
 
 type Team struct {
@@ -51,23 +50,43 @@ type Team struct {
 type Sprint struct {
 	Base
 	Name       string    `json:"name" gorm:"unique"`
+	Issues     []Issue   `json:"issues"`
 	Start      time.Time `json:"start"`
 	End        time.Time `json:"end"`
 	ProjectKey string    `json:"projectKey" gorm:"not null;check:project_key <> ''"`
 }
 
 type Issue struct {
-	ID          uint      `json:"id" gorm:"primaryKey;autoincrement"`
-	Type        Type      `json:"type"`
-	TypeId      string    `json:"typeId"`
-	CreatedAt   time.Time `json:"createdAt"`
-	UpdatedAt   time.Time `json:"updatedAt"`
-	ProjectKey  string    `json:"projectKey" gorm:"not null;check:project_key <> ''"`
-	Title       string    `json:"title" gorm:"unique;not null;check:title <> ''"`
-	Description string    `json:"description"`
+	ID        uint      `json:"id" gorm:"primaryKey;autoincrement"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+
+	Name          string `json:"name" gorm:"unique;not null;check:name <> ''"`
+	Description   string `json:"description"`
+	ProjectKey    string `json:"projectKey" gorm:"not null;check:project_key <> ''"`
+	Sprint        Sprint `json:"sprint"`
+	SprintId      string `json:"sprintId"`
+	Type          Type   `json:"type"`
+	TypeId        string `json:"typeId"`
+	Status        Status `json:"status"`
+	StatusId      string `json:"statusId"`
+	Assignee      User   `json:"assignee" gorm:"foreignKey:AssigneeEmail;references:Email"`
+	AssigneeEmail string `json:"assigneeEmail"`
 }
 
 type Type struct {
+	Base
+	Name string `json:"name" gorm:"unique:not null;check:name <> ''"`
+}
+
+const (
+	TO_DO       = "To Do"
+	IN_PROGRESS = "In progress"
+	IN_REVIEW   = "In review"
+	DONE        = "Done"
+)
+
+type Status struct {
 	Base
 	Name string `json:"name" gorm:"unique:not null;check:name <> ''"`
 }

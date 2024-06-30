@@ -1,0 +1,49 @@
+package vproject;
+
+import "github.com/naqet/company-management-system/internal/db"
+import "github.com/naqet/company-management-system/internal/utils"
+
+templ KanbanBoard(issues []db.Issue) {
+<div class="grid">
+    <article>
+        <header>
+            To Do
+        </header>
+        <main style="grid">
+            for _, data := range utils.GetIssuesByStatus(issues, db.TO_DO) {
+            @Issue(data)
+            }
+        </main>
+    </article>
+    <article>
+        <header>
+            In progress
+        </header>
+        <main style="grid">
+            for _, data := range utils.GetIssuesByStatus(issues, db.IN_PROGRESS) {
+            @Issue(data)
+            }
+        </main>
+    </article>
+    <article>
+        <header>
+            In review
+        </header>
+        <main style="grid">
+            for _, data := range utils.GetIssuesByStatus(issues, db.IN_REVIEW) {
+            @Issue(data)
+            }
+        </main>
+    </article>
+    <article>
+        <header>
+            Done
+        </header>
+        <main style="grid">
+            for _, data := range utils.GetIssuesByStatus(issues, db.DONE) {
+            @Issue(data)
+            }
+        </main>
+    </article>
+</div>
+}

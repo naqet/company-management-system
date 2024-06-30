@@ -8,6 +8,7 @@ import (
 	"github.com/naqet/company-management-system/internal/middlewares"
 	"github.com/naqet/company-management-system/internal/utils"
 	"github.com/naqet/company-management-system/pkg/chttp"
+	vissue "github.com/naqet/company-management-system/views/issue"
 	"gorm.io/gorm"
 )
 
@@ -27,13 +28,29 @@ func NewIssueHandler(app *chttp.App) {
 }
 
 func (h *issueHandler) createPage(w http.ResponseWriter, r *http.Request) error {
-	// TODO create page
-	return nil
+    projects := []db.Project{}
+    err := h.db.Find(&projects).Error
+    if err != nil {
+        return err
+    }
+    types := []db.Type{}
+    err = h.db.Find(&types).Error
+    if err != nil {
+        return err
+    }
+
+    users := []db.User{}
+    err = h.db.Find(&users).Error
+    if err != nil {
+        return err
+    }
+
+	return vissue.CreatePage(projects, types, users).Render(r.Context(), w)
 }
 
 func (h *issueHandler) create(w http.ResponseWriter, r *http.Request) error {
 	type request struct {
-		Title      string `json:"title"`
+		Name       string `json:"name"`
 		Type       string `json:"type"`
 		ProjectKey string `json:"projectKey"`
 	}
@@ -42,13 +59,13 @@ func (h *issueHandler) create(w http.ResponseWriter, r *http.Request) error {
 	utils.GetDataFromBody(r.Body, &data)
 
 	err := h.db.Create(&db.Issue{
-		Title:      data.Title,
+		Name:       data.Name,
 		Type:       db.Type{Name: data.Type},
 		ProjectKey: data.ProjectKey,
 	}).Error
 
 	if errors.Is(err, gorm.ErrDuplicatedKey) {
-		return chttp.BadRequestError("Issue with such title already exists")
+		return chttp.BadRequestError("Issue with such name already exists")
 	} else if err != nil {
 		return err
 	}

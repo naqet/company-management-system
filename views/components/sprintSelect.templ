@@ -1,0 +1,17 @@
+package vcomponents;
+
+import "github.com/naqet/company-management-system/internal/db"
+
+templ SprintSelect(sprints []db.Sprint) {
+	<label id="sprint-select">
+		Sprint
+		<select name="sprint" required>
+			<option selected disabled value="">
+				Select
+			</option>
+			for _, sprint := range sprints {
+				<option value={ sprint.ID }>{ sprint.Name }</option>
+			}
+		</select>
+	</label>
+}

@@ -36,7 +36,7 @@ func (h *projectHandler) summaryPage(w http.ResponseWriter, r *http.Request) err
     key := r.PathValue("key")
 
     project := db.Project{}
-    err := h.db.Preload("Sprints").Where("key = ?", key).First(&project).Error
+    err := h.db.Preload("Sprints.Issues").Where("key = ?", key).First(&project).Error
 
     if errors.Is(err, gorm.ErrRecordNotFound) {
         return chttp.BadRequestError("Project with such key doesn't exist")
@@ -48,11 +48,11 @@ func (h *projectHandler) summaryPage(w http.ResponseWriter, r *http.Request) err
 }
 
 func (h *projectHandler) create(w http.ResponseWriter, r *http.Request) error {
-	title := r.FormValue("title")
+	name := r.FormValue("name")
 	key := r.FormValue("key")
 
-	if len(title) < 1 {
-		return chttp.BadRequestError("Title is required")
+	if len(name) < 1 {
+		return chttp.BadRequestError("Name is required")
 	}
 
 	if len(key) < 1 {
@@ -65,7 +65,7 @@ func (h *projectHandler) create(w http.ResponseWriter, r *http.Request) error {
 		return err
 	}
 
-    err = h.db.Create(&db.Project{Title: title, Key: key, OwnerEmail: email}).Error
+    err = h.db.Create(&db.Project{Name: name, Key: key, OwnerEmail: email}).Error
 
     if err != nil {
         return err

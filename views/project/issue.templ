@@ -1,0 +1,13 @@
+package vproject;
+
+import "github.com/naqet/company-management-system/internal/db"
+import "github.com/naqet/company-management-system/internal/utils"
+
+templ Issue(data db.Issue) {
+<article>
+    <header>
+        <a target="_blank" href={ templ.SafeURL("/issue" + utils.GetKey(data)) }>{ utils.GetKey(data) }</a>
+        <p>{ data.Name }</p>
+    </header>
+</article>
+}

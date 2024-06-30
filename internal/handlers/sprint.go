@@ -40,7 +40,7 @@ func (h *sprintHandler) create(w http.ResponseWriter, r *http.Request) error {
 	err := h.db.Create(&db.Sprint{Name: data.Name, Start: time.Time(data.Start), End: time.Time(data.End), ProjectKey: data.ProjectKey}).Error
 
 	if errors.Is(err, gorm.ErrDuplicatedKey) {
-		return chttp.BadRequestError("Sprint with such title already exists")
+		return chttp.BadRequestError("Sprint with such name already exists")
 	} else if err != nil {
 		return err
 	}

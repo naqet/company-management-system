@@ -13,7 +13,7 @@ templ Base(projects []db.Project) {
         for _, project := range projects {
         <article>
             <header>
-                <a href={ templ.SafeURL("/project/" + project.Key) }>{ project.Title }</a>
+                <a href={ templ.SafeURL("/project/" + project.Key) }>{ project.Name }</a>
             </header>
             <main>
                 Owner: {project.Owner.Name}
