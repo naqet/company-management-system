@@ -2,6 +2,7 @@ package db
 
 import (
 	"log/slog"
+	"time"
 
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
@@ -12,18 +13,36 @@ func initSeed(db *gorm.DB) {
 	seedProjects(db)
 	seedStatuses(db)
 	seedIssueTypes(db)
-	seedIssues(db)
+
+	sprintId := seedSprints(db)
+	seedIssues(db, sprintId)
+}
+
+func seedSprints(db *gorm.DB) string {
+	sprints := []*Sprint{
+		{
+			Name:       "First Sprint",
+			Issues:     []Issue{},
+			Start:      time.Time{},
+			End:        time.Time{},
+			ProjectKey: "HW",
+		},
+	}
+
+	db.Create(&sprints)
+
+	return sprints[len(sprints)-1].ID
 }
 
 func seedProjects(db *gorm.DB) {
 	projects := []*Project{
 		{
-			Name:      "Hello world",
+			Name:       "Hello world",
 			Key:        "HW",
 			OwnerEmail: "test@gmail.com",
 		},
 		{
-			Name:      "Another Project",
+			Name:       "Another Project",
 			Key:        "AP",
 			OwnerEmail: "test@gmail.com",
 		},
@@ -67,25 +86,35 @@ func seedIssueTypes(db *gorm.DB) {
 	db.Create(&types)
 }
 
-func seedIssues(db *gorm.DB) {
+func seedIssues(db *gorm.DB, sprintId string) {
 	issues := []*Issue{
 		{
 			ProjectKey: "HW",
-			Name:      "First task",
+			Name:       "First task",
 			Type:       Type{Name: "Task"},
 			Status:     Status{Name: TO_DO},
+			SprintId:   sprintId,
 		},
 		{
 			ProjectKey: "HW",
-			Name:      "First epic",
+			Name:       "Another task",
+			Type:       Type{Name: "Task"},
+			Status:     Status{Name: TO_DO},
+			SprintId:   sprintId,
+		},
+		{
+			ProjectKey: "HW",
+			Name:       "First epic",
 			Type:       Type{Name: "Epic"},
 			Status:     Status{Name: IN_PROGRESS},
+			SprintId:   sprintId,
 		},
 		{
 			ProjectKey: "HW",
-			Name:      "First user story",
+			Name:       "First user story",
 			Type:       Type{Name: "User Story"},
 			Status:     Status{Name: DONE},
+			SprintId:   sprintId,
 		},
 	}
 

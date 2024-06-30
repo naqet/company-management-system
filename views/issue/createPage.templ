@@ -34,7 +34,7 @@ templ CreatePage(projects []db.Project, types []db.Type, users []db.User) {
 							Select
 						</option>
 						for _, issueType := range types {
-							<option value={ issueType.ID }>{ issueType.Name }</option>
+							<option value={ issueType.Name }>{ issueType.Name }</option>
 						}
 					</select>
 				</label>
@@ -48,12 +48,12 @@ templ CreatePage(projects []db.Project, types []db.Type, users []db.User) {
 				</label>
 				<label>
 					Assignee
-					<select name="assignee" required>
+					<select name="assigneeEmail" required>
 						<option selected disabled value="">
 							Select
 						</option>
 						for _, user := range users {
-							<option value={ user.ID }>{ user.Name }</option>
+							<option value={ user.Email }>{ user.Name }</option>
 						}
 					</select>
 				</label>

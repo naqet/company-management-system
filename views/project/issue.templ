@@ -4,10 +4,19 @@ import "github.com/naqet/company-management-system/internal/db"
 import "github.com/naqet/company-management-system/internal/utils"
 
 templ Issue(data db.Issue) {
-<article>
-    <header>
-        <a target="_blank" href={ templ.SafeURL("/issue" + utils.GetKey(data)) }>{ utils.GetKey(data) }</a>
-        <p>{ data.Name }</p>
-    </header>
-</article>
+	<article>
+		<header>
+			<small>
+				<a class="secondary" target="_blank" href={ templ.SafeURL("/issue/" + utils.GetKey(data)) }>
+					{ utils.GetKey(data) }
+				</a>
+			</small>
+		</header>
+		<main>
+			<p>{ data.Name }</p>
+		</main>
+        <footer>
+			<small>{ data.StatusName }</small>
+        </footer>
+	</article>
 }

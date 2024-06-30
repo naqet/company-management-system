@@ -16,7 +16,7 @@ func GetIssuesByStatus(issues []db.Issue, status string) []db.Issue {
     res := []db.Issue{}
 
     for _, issue := range issues {
-        if issue.Status.Name == status {
+        if issue.StatusName == status {
             res = append(res, issue)
         }
     }

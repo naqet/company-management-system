@@ -28,40 +28,47 @@ func NewIssueHandler(app *chttp.App) {
 }
 
 func (h *issueHandler) createPage(w http.ResponseWriter, r *http.Request) error {
-    projects := []db.Project{}
-    err := h.db.Find(&projects).Error
-    if err != nil {
-        return err
-    }
-    types := []db.Type{}
-    err = h.db.Find(&types).Error
-    if err != nil {
-        return err
-    }
+	projects := []db.Project{}
+	err := h.db.Find(&projects).Error
+	if err != nil {
+		return err
+	}
+	types := []db.Type{}
+	err = h.db.Find(&types).Error
+	if err != nil {
+		return err
+	}
 
-    users := []db.User{}
-    err = h.db.Find(&users).Error
-    if err != nil {
-        return err
-    }
+	users := []db.User{}
+	err = h.db.Find(&users).Error
+	if err != nil {
+		return err
+	}
 
 	return vissue.CreatePage(projects, types, users).Render(r.Context(), w)
 }
 
 func (h *issueHandler) create(w http.ResponseWriter, r *http.Request) error {
 	type request struct {
-		Name       string `json:"name"`
-		Type       string `json:"type"`
-		ProjectKey string `json:"projectKey"`
+		ProjectKey    string `json:"projectKey"`
+		Sprint        string `json:"sprint"`
+		Type          string `json:"type"`
+		Name          string `json:"name"`
+		Description   string `json:"description"`
+		AssigneeEmail string `json:"assignee"`
 	}
 
 	var data request
 	utils.GetDataFromBody(r.Body, &data)
 
 	err := h.db.Create(&db.Issue{
-		Name:       data.Name,
-		Type:       db.Type{Name: data.Type},
-		ProjectKey: data.ProjectKey,
+		Name:          data.Name,
+		TypeName:      data.Type,
+		StatusName:    db.TO_DO,
+		ProjectKey:    data.ProjectKey,
+		AssigneeEmail: data.AssigneeEmail,
+		SprintId:      data.Sprint,
+		Description:   data.Description,
 	}).Error
 
 	if errors.Is(err, gorm.ErrDuplicatedKey) {

@@ -41,6 +41,7 @@ func Init() *gorm.DB {
         &Sprint{},
         &Issue{},
         &Type{},
+        &Status{},
     )
 
     if seed {

@@ -13,6 +13,11 @@ type Base struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
+type TimeStamps struct {
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+}
+
 func (b *Base) BeforeCreate(tx *gorm.DB) error {
 	b.ID = uuid.NewV4().String()
 	return nil
@@ -29,9 +34,9 @@ type User struct {
 }
 
 type Project struct {
-	Base
+	TimeStamps
+	Key        string   `json:"key" gorm:"primaryKey"`
 	Name       string   `json:"name" gorm:"unique"`
-	Key        string   `json:"key" gorm:"unique"`
 	Owner      User     `json:"owner" gorm:"references:Email"`
 	OwnerEmail string   `json:"ownerEmail"`
 	Teams      []Team   `json:"team" gorm:"foreignKey:ProjectKey"`
@@ -53,7 +58,7 @@ type Sprint struct {
 	Issues     []Issue   `json:"issues"`
 	Start      time.Time `json:"start"`
 	End        time.Time `json:"end"`
-	ProjectKey string    `json:"projectKey" gorm:"not null;check:project_key <> ''"`
+	ProjectKey string    `json:"projectKey"`
 }
 
 type Issue struct {
@@ -67,16 +72,16 @@ type Issue struct {
 	Sprint        Sprint `json:"sprint"`
 	SprintId      string `json:"sprintId"`
 	Type          Type   `json:"type"`
-	TypeId        string `json:"typeId"`
+	TypeName      string `json:"typeName"`
 	Status        Status `json:"status"`
-	StatusId      string `json:"statusId"`
+	StatusName    string `json:"statusName"`
 	Assignee      User   `json:"assignee" gorm:"foreignKey:AssigneeEmail;references:Email"`
 	AssigneeEmail string `json:"assigneeEmail"`
 }
 
 type Type struct {
-	Base
-	Name string `json:"name" gorm:"unique:not null;check:name <> ''"`
+	TimeStamps
+	Name string `json:"name" gorm:"primaryKey"`
 }
 
 const (
@@ -87,6 +92,6 @@ const (
 )
 
 type Status struct {
-	Base
-	Name string `json:"name" gorm:"unique:not null;check:name <> ''"`
+	TimeStamps
+	Name string `json:"name" gorm:"primaryKey"`
 }

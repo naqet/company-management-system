@@ -17,8 +17,8 @@ templ Summary(data db.Project) {
     <section>
         if len(data.Sprints) > 0 {
         <div>
-            for _, sprint := range data.Sprints {
-            <details>
+            for i, sprint := range data.Sprints {
+            <details if i==0 { open }>
                 <summary>{ sprint.Name }</summary>
                 @KanbanBoard(sprint.Issues)
             </details>

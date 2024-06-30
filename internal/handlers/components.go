@@ -28,7 +28,7 @@ func (c *componentsHandler) sprintSelect(w http.ResponseWriter, r *http.Request)
     sprints := []db.Sprint{}
     key := r.URL.Query().Get("projectKey")
 
-    err := c.db.Debug().Where("project_key = ?", key).Find(&sprints).Error
+    err := c.db.Where("project_key = ?", key).Find(&sprints).Error
 
     if err != nil {
         return err
