@@ -4,23 +4,19 @@ import "github.com/naqet/company-management-system/views/layout"
 import "github.com/naqet/company-management-system/internal/db"
 
 templ Base(projects []db.Project) {
-@vlayout.Base() {
-@vlayout.Header()
-<main class="container">
-    <a href="/project/create" role="button" style="margin-bottom: var(--pico-block-spacing-vertical)">New project</a>
-    <a href="/issue/create" role="button" style="margin-bottom: var(--pico-block-spacing-vertical)">New issue</a>
-    <section class="grid">
-        for _, project := range projects {
-        <article>
-            <header>
-                <a href={ templ.SafeURL("/project/" + project.Key) }>{ project.Name }</a>
-            </header>
-            <main>
-                Owner: {project.Owner.Name}
-            </main>
-        </article>
-        }
-    </section>
-</main>
-}
+	@vlayout.Base() {
+		@vlayout.Header()
+		<main class="container grid">
+			for _, project := range projects {
+				<article>
+					<header>
+						<a href={ templ.SafeURL("/project/" + project.Key) }>{ project.Name }</a>
+					</header>
+					<main>
+						Owner: { project.Owner.Name }
+					</main>
+				</article>
+			}
+		</main>
+	}
 }
