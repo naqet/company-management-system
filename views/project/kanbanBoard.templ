@@ -1,49 +1,28 @@
 package vproject;
 
 import "github.com/naqet/company-management-system/internal/db"
-import "github.com/naqet/company-management-system/internal/utils"
+
+var sortableScript = templ.NewOnceHandle()
 
 templ KanbanBoard(issues []db.Issue) {
 	<div class="grid">
-		<article>
-			<header>
-				To Do
-			</header>
-			<main style="grid sortable">
-				for _, data := range utils.GetIssuesByStatus(issues, db.TO_DO) {
-					@Issue(data)
-				}
-			</main>
-		</article>
-		<article>
-			<header>
-				In progress
-			</header>
-			<main style="grid sortable">
-				for _, data := range utils.GetIssuesByStatus(issues, db.IN_PROGRESS) {
-					@Issue(data)
-				}
-			</main>
-		</article>
-		<article>
-			<header>
-				In review
-			</header>
-			<main style="grid sortable">
-				for _, data := range utils.GetIssuesByStatus(issues, db.IN_REVIEW) {
-					@Issue(data)
-				}
-			</main>
-		</article>
-		<article>
-			<header>
-				Done
-			</header>
-			<main style="grid sortable">
-				for _, data := range utils.GetIssuesByStatus(issues, db.DONE) {
-					@Issue(data)
-				}
-			</main>
-		</article>
+		for _, status := range []string{db.TO_DO, db.IN_PROGRESS, db.IN_REVIEW, db.DONE} {
+			@StatusList(status, issues)
+		}
 	</div>
+	@sortableScript.Once() {
+		<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+		<script defer>
+    const lists = document.body.querySelectorAll(".sortable")
+
+    for (const list of lists) {
+        Sortable.create(list, {
+            animation: 150,
+            group: "kanban",
+            ghostClass: "sortable-ghost",
+            filter: ".unsortable",
+        })
+    }
+</script>
+	}
 }

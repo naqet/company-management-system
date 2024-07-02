@@ -1,0 +1,26 @@
+package vproject;
+
+import "github.com/naqet/company-management-system/internal/db"
+import "github.com/naqet/company-management-system/internal/utils"
+
+templ StatusList(name string, issues []db.Issue) {
+	<article>
+		<header>
+			{ name }
+		</header>
+		<main
+			aria-label={ name }
+			class="sortable"
+			hx-trigger="end"
+			hx-put="/issue/status"
+            hx-swap-oob="true"
+            hx-swap="none"
+			hx-vals={ "js:{status: event.to.ariaLabel, key: event.item.id}" }
+			style="min-height:100px;"
+		>
+			for _, data := range utils.GetIssuesByStatus(issues, name) {
+				@Issue(data)
+			}
+		</main>
+	</article>
+}

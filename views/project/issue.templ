@@ -4,7 +4,7 @@ import "github.com/naqet/company-management-system/internal/db"
 import "github.com/naqet/company-management-system/internal/utils"
 
 templ Issue(data db.Issue) {
-	<article>
+	<article style="cursor:move;" id={ utils.GetKey(data) } hx-swap-oob="true">
 		<header>
 			<small>
 				<a class="secondary" target="_blank" href={ templ.SafeURL("/issue/" + utils.GetKey(data)) }>
@@ -15,8 +15,8 @@ templ Issue(data db.Issue) {
 		<main>
 			<p>{ data.Name }</p>
 		</main>
-        <footer>
+		<footer>
 			<small>{ data.StatusName }</small>
-        </footer>
+		</footer>
 	</article>
 }

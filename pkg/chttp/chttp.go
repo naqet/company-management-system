@@ -47,6 +47,10 @@ func (a *App) Post(path string, fn HandlerFunc) {
 	a.mux.HandleFunc("POST "+a.path+path, withErrorHandling(fn))
 }
 
+func (a *App) Put(path string, fn HandlerFunc) {
+	a.mux.HandleFunc("PUT "+a.path+path, withErrorHandling(fn))
+}
+
 func (a *App) ServeDir(pattern, dir string) {
 	a.mux.Handle(pattern, http.StripPrefix(pattern, http.FileServer(http.Dir(dir))))
 }

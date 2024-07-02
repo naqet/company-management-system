@@ -2,3 +2,7 @@
     --pico-font-size: 17px;
     --pico-line-height: 1;
 }
+
+.sortable-ghost {
+    opacity: 0.4;
+}

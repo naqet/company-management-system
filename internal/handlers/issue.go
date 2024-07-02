@@ -3,12 +3,14 @@ package handlers
 import (
 	"errors"
 	"net/http"
+	"strings"
 
 	"github.com/naqet/company-management-system/internal/db"
 	"github.com/naqet/company-management-system/internal/middlewares"
 	"github.com/naqet/company-management-system/internal/utils"
 	"github.com/naqet/company-management-system/pkg/chttp"
 	vissue "github.com/naqet/company-management-system/views/issue"
+	vproject "github.com/naqet/company-management-system/views/project"
 	"gorm.io/gorm"
 )
 
@@ -25,6 +27,49 @@ func NewIssueHandler(app *chttp.App) {
 
 	route.Get("/create", h.createPage)
 	route.Post("", h.create)
+	route.Put("/status", h.updateStatus)
+}
+
+func (h *issueHandler) updateStatus(w http.ResponseWriter, r *http.Request) error {
+	status := r.FormValue("status")
+	key := r.FormValue("key")
+
+	if status == "" || key == "" {
+		return chttp.BadRequestError("Required status and key form fields")
+	}
+
+	data := strings.Split(key, "-")
+
+	if len(data) != 2 {
+		return chttp.BadRequestError("Invalid key")
+	}
+	projectKey := data[0]
+	id := data[1]
+
+	err := h.db.Where("name = ?", status).Find(&db.Status{}).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return chttp.BadRequestError("Invalid status")
+	} else if err != nil {
+		return err
+	}
+
+	err = h.db.Model(&db.Issue{}).Where("project_key = ? AND id = ?", projectKey, id).Update("status_name", status).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return chttp.BadRequestError("Issue with such key doesn't exist")
+	} else if err != nil {
+        return err
+    }
+    
+    issue := db.Issue{}
+    err = h.db.Where("id = ?", id).First(&issue).Error
+
+    if err != nil {
+        return err
+    }
+
+	return vproject.Issue(issue).Render(r.Context(), w)
 }
 
 func (h *issueHandler) createPage(w http.ResponseWriter, r *http.Request) error {
