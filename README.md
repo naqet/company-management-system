@@ -6,14 +6,14 @@
 - [x] Create team
 - [x] Create sprint
 - [ ] Create issues
-- - [ ] Create epic type
-- - [ ] Create story type
-- - [ ] Create task type
+- - [x] Create epic type
+- - [x] Create story type
+- - [x] Create task type
 - - [ ] Add priority
 - [ ] Kanban board
 - - [ ] Sorting
 - - [ ] Filtering
-- - [ ] Draggable
+- - [x] Draggable
 - [ ] Data Validation
 
 ## Bonus
