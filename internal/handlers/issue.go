@@ -25,9 +25,32 @@ func NewIssueHandler(app *chttp.App) {
 
 	h := &issueHandler{db: app.Db}
 
+    route.Get("/{key}", h.summaryPage)
 	route.Get("/create", h.createPage)
 	route.Post("", h.create)
 	route.Put("/status", h.updateStatus)
+}
+
+func (h *issueHandler) summaryPage(w http.ResponseWriter, r *http.Request) error {
+    key := r.PathValue("key")
+
+	data := strings.Split(key, "-")
+
+	if len(data) != 2 {
+		return chttp.BadRequestError("Invalid key")
+	}
+	projectKey := data[0]
+	id := data[1]
+
+    issue := db.Issue{}
+
+    err := h.db.Where("project_key = ? AND id = ?", projectKey, id).First(&issue).Error
+
+    if err != nil {
+        return err
+    }
+
+    return vissue.SummaryPage(issue).Render(r.Context(), w)
 }
 
 func (h *issueHandler) updateStatus(w http.ResponseWriter, r *http.Request) error {
@@ -59,15 +82,15 @@ func (h *issueHandler) updateStatus(w http.ResponseWriter, r *http.Request) erro
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return chttp.BadRequestError("Issue with such key doesn't exist")
 	} else if err != nil {
-        return err
-    }
-    
-    issue := db.Issue{}
-    err = h.db.Where("id = ?", id).First(&issue).Error
+		return err
+	}
 
-    if err != nil {
-        return err
-    }
+	issue := db.Issue{}
+	err = h.db.Where("id = ?", id).First(&issue).Error
+
+	if err != nil {
+		return err
+	}
 
 	return vproject.Issue(issue).Render(r.Context(), w)
 }
@@ -90,7 +113,13 @@ func (h *issueHandler) createPage(w http.ResponseWriter, r *http.Request) error 
 		return err
 	}
 
-	return vissue.CreatePage(projects, types, users).Render(r.Context(), w)
+	priorities := []db.Priority{}
+	err = h.db.Find(&priorities).Error
+	if err != nil {
+		return err
+	}
+
+	return vissue.CreatePage(projects, types, users, priorities).Render(r.Context(), w)
 }
 
 func (h *issueHandler) create(w http.ResponseWriter, r *http.Request) error {
@@ -98,6 +127,7 @@ func (h *issueHandler) create(w http.ResponseWriter, r *http.Request) error {
 		ProjectKey    string `json:"projectKey"`
 		Sprint        string `json:"sprint"`
 		Type          string `json:"type"`
+		Priority      string `json:"priority"`
 		Name          string `json:"name"`
 		Description   string `json:"description"`
 		AssigneeEmail string `json:"assignee"`
@@ -112,6 +142,7 @@ func (h *issueHandler) create(w http.ResponseWriter, r *http.Request) error {
 		StatusName:    db.TO_DO,
 		ProjectKey:    data.ProjectKey,
 		AssigneeEmail: data.AssigneeEmail,
+		PriorityName:  data.Priority,
 		SprintId:      data.Sprint,
 		Description:   data.Description,
 	}).Error

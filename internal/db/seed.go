@@ -12,6 +12,7 @@ func initSeed(db *gorm.DB) {
 	seedUsers(db)
 	seedProjects(db)
 	seedStatuses(db)
+    seedPriorities(db)
 	seedIssueTypes(db)
 
 	sprintId := seedSprints(db)
@@ -70,6 +71,22 @@ func seedStatuses(db *gorm.DB) {
 	db.Create(&statuses)
 }
 
+func seedPriorities(db *gorm.DB) {
+	priorities := []*Priority{
+		{
+			Name: MINOR,
+		},
+		{
+			Name: MAJOR,
+		},
+		{
+			Name: CRITICAL,
+		},
+	}
+
+	db.Create(&priorities)
+}
+
 func seedIssueTypes(db *gorm.DB) {
 	types := []*Type{
 		{
@@ -89,32 +106,36 @@ func seedIssueTypes(db *gorm.DB) {
 func seedIssues(db *gorm.DB, sprintId string) {
 	issues := []*Issue{
 		{
-			ProjectKey: "HW",
-			Name:       "First task",
-			Type:       Type{Name: "Task"},
-			Status:     Status{Name: TO_DO},
-			SprintId:   sprintId,
+			ProjectKey:   "HW",
+			Name:         "First task",
+			TypeName:     TASK,
+			StatusName:   TO_DO,
+			PriorityName: MINOR,
+			SprintId:     sprintId,
 		},
 		{
-			ProjectKey: "HW",
-			Name:       "Another task",
-			Type:       Type{Name: "Task"},
-			Status:     Status{Name: TO_DO},
-			SprintId:   sprintId,
+			ProjectKey:   "HW",
+			Name:         "Another task",
+			TypeName:     TASK,
+			StatusName:   TO_DO,
+			PriorityName: CRITICAL,
+			SprintId:     sprintId,
 		},
 		{
-			ProjectKey: "HW",
-			Name:       "First epic",
-			Type:       Type{Name: "Epic"},
-			Status:     Status{Name: IN_PROGRESS},
-			SprintId:   sprintId,
+			ProjectKey:   "HW",
+			Name:         "First epic",
+			TypeName:     EPIC,
+			StatusName:   IN_PROGRESS,
+			PriorityName: MAJOR,
+			SprintId:     sprintId,
 		},
 		{
-			ProjectKey: "HW",
-			Name:       "First user story",
-			Type:       Type{Name: "User Story"},
-			Status:     Status{Name: DONE},
-			SprintId:   sprintId,
+			ProjectKey:   "HW",
+			Name:         "First user story",
+			TypeName:     USER_STORY,
+			StatusName:   DONE,
+			PriorityName: MAJOR,
+			SprintId:     sprintId,
 		},
 	}
 

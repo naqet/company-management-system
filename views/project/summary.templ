@@ -2,17 +2,11 @@ package vproject;
 
 import "github.com/naqet/company-management-system/views/layout"
 import "github.com/naqet/company-management-system/internal/db"
-import "github.com/naqet/company-management-system/views/sprint"
-import "github.com/naqet/company-management-system/views/team"
 
 templ Summary(data db.Project) {
 @vlayout.Base() {
 @vlayout.Header()
 <main class="container">
-    <section>
-        @vsprint.CreateModal(data.Key)
-        @vteam.CreateModal(data.Key)
-    </section>
     <h1>{ data.Name }</h1>
     <section>
         if len(data.Sprints) > 0 {

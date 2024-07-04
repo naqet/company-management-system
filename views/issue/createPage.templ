@@ -4,7 +4,7 @@ import "github.com/naqet/company-management-system/views/layout"
 import "github.com/naqet/company-management-system/internal/db"
 import "github.com/naqet/company-management-system/views/components"
 
-templ CreatePage(projects []db.Project, types []db.Type, users []db.User) {
+templ CreatePage(projects []db.Project, types []db.Type, users []db.User, priorities []db.Priority) {
 	@vlayout.Base() {
 		@vlayout.Header()
 		<main class="container">
@@ -35,6 +35,17 @@ templ CreatePage(projects []db.Project, types []db.Type, users []db.User) {
 						</option>
 						for _, issueType := range types {
 							<option value={ issueType.Name }>{ issueType.Name }</option>
+						}
+					</select>
+				</label>
+                <label>
+					Priority
+					<select name="priority" required>
+						<option selected disabled value="">
+							Select
+						</option>
+						for _, priority := range priorities {
+							<option value={ priority.Name }>{ priority.Name }</option>
 						}
 					</select>
 				</label>

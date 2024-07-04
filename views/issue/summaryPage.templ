@@ -1,0 +1,13 @@
+package vissue;
+
+import "github.com/naqet/company-management-system/views/layout"
+import "github.com/naqet/company-management-system/internal/db"
+
+templ SummaryPage(data db.Issue) {
+    @vlayout.Base() {
+        @vlayout.Header()
+        <main class="container">
+            <h1>{data.Name}</h1>
+        </main>
+    }
+}

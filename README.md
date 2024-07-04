@@ -5,11 +5,11 @@
 - [x] Create project
 - [x] Create team
 - [x] Create sprint
-- [ ] Create issues
+- [x] Create issues
 - - [x] Create epic type
 - - [x] Create story type
 - - [x] Create task type
-- - [ ] Add priority
+- - [x] Add priority
 - [ ] Kanban board
 - - [ ] Sorting
 - - [ ] Filtering

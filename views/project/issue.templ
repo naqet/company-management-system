@@ -15,8 +15,9 @@ templ Issue(data db.Issue) {
 		<main>
 			<p>{ data.Name }</p>
 		</main>
-		<footer>
+		<footer style="display:flex;justify-content:space-between;">
 			<small>{ data.StatusName }</small>
+            <small>{ data.PriorityName }</small>
 		</footer>
 	</article>
 }

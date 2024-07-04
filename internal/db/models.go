@@ -66,18 +66,26 @@ type Issue struct {
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 
-	Name          string `json:"name" gorm:"unique;not null;check:name <> ''"`
-	Description   string `json:"description"`
-	ProjectKey    string `json:"projectKey" gorm:"not null;check:project_key <> ''"`
-	Sprint        Sprint `json:"sprint"`
-	SprintId      string `json:"sprintId"`
-	Type          Type   `json:"type"`
-	TypeName      string `json:"typeName"`
-	Status        Status `json:"status"`
-	StatusName    string `json:"statusName"`
-	Assignee      User   `json:"assignee" gorm:"foreignKey:AssigneeEmail;references:Email"`
-	AssigneeEmail string `json:"assigneeEmail"`
+	Name          string   `json:"name" gorm:"unique;not null;check:name <> ''"`
+	Description   string   `json:"description"`
+	ProjectKey    string   `json:"projectKey" gorm:"not null;check:project_key <> ''"`
+	Sprint        Sprint   `json:"sprint"`
+	SprintId      string   `json:"sprintId"`
+	Type          Type     `json:"type"`
+	TypeName      string   `json:"typeName"`
+	Status        Status   `json:"status"`
+	StatusName    string   `json:"statusName"`
+	Assignee      User     `json:"assignee" gorm:"foreignKey:AssigneeEmail;references:Email"`
+	AssigneeEmail string   `json:"assigneeEmail"`
+	Priority      Priority `json:"priority"`
+	PriorityName  string   `json:"priorityName"`
 }
+
+const (
+	TASK       = "Task"
+	EPIC       = "Epic"
+	USER_STORY = "User story"
+)
 
 type Type struct {
 	TimeStamps
@@ -92,6 +100,17 @@ const (
 )
 
 type Status struct {
+	TimeStamps
+	Name string `json:"name" gorm:"primaryKey"`
+}
+
+const (
+	MINOR    = "Minor"
+	MAJOR    = "Major"
+	CRITICAL = "Critical"
+)
+
+type Priority struct {
 	TimeStamps
 	Name string `json:"name" gorm:"primaryKey"`
 }
