@@ -31,6 +31,7 @@ func main() {
 	handlers.NewSprintHandler(app)
 	handlers.NewTeamHandler(app)
 	handlers.NewIssueHandler(app)
+	handlers.NewProfileHandler(app)
 	handlers.NewComponentsHandler(app)
 
 	println("App running...")

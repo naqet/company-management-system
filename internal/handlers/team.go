@@ -34,7 +34,11 @@ func (h *teamHandler) create(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	var data request
-	utils.GetDataFromBody(r.Body, &data)
+    err := utils.GetDataFromBody(r.Body, &data)
+
+    if err != nil {
+        return chttp.BadRequestError()
+    }
 
 	team := db.Team{
 		Name:        data.Name,
@@ -46,7 +50,7 @@ func (h *teamHandler) create(w http.ResponseWriter, r *http.Request) error {
 		team.Members = append(team.Members, db.User{Email: member})
 	}
 
-	err := h.db.Create(&team).Error
+	err = h.db.Create(&team).Error
 
 	if errors.Is(err, gorm.ErrDuplicatedKey) {
 		return chttp.BadRequestError("Team with such name already exists")

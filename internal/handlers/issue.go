@@ -134,9 +134,13 @@ func (h *issueHandler) create(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	var data request
-	utils.GetDataFromBody(r.Body, &data)
+    err := utils.GetDataFromBody(r.Body, &data)
 
-	err := h.db.Create(&db.Issue{
+    if err != nil {
+        return chttp.BadRequestError()
+    }
+
+	err = h.db.Create(&db.Issue{
 		Name:          data.Name,
 		TypeName:      data.Type,
 		StatusName:    db.TO_DO,

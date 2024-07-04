@@ -35,9 +35,13 @@ func (h *sprintHandler) create(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	var data request
-	utils.GetDataFromBody(r.Body, &data)
+    err := utils.GetDataFromBody(r.Body, &data)
 
-	err := h.db.Create(&db.Sprint{Name: data.Name, Start: time.Time(data.Start), End: time.Time(data.End), ProjectKey: data.ProjectKey}).Error
+    if err != nil {
+        return chttp.BadRequestError()
+    }
+
+	err = h.db.Create(&db.Sprint{Name: data.Name, Start: time.Time(data.Start), End: time.Time(data.End), ProjectKey: data.ProjectKey}).Error
 
 	if errors.Is(err, gorm.ErrDuplicatedKey) {
 		return chttp.BadRequestError("Sprint with such name already exists")

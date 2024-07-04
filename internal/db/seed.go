@@ -148,19 +148,16 @@ func seedUsers(db *gorm.DB) {
 			Name:              "Test",
 			Email:             "test@gmail.com",
 			Password:          "123",
-			PasswordConfirmed: false,
 		},
 		{
 			Name:              "Another",
 			Email:             "test123@gmail.com",
 			Password:          "123",
-			PasswordConfirmed: false,
 		},
 		{
 			Name:              "Kobe",
 			Email:             "123@gmail.com",
 			Password:          "123",
-			PasswordConfirmed: false,
 		},
 	}
 

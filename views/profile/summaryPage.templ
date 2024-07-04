@@ -1,0 +1,24 @@
+package vprofile;
+
+import "github.com/naqet/company-management-system/views/layout"
+import "github.com/naqet/company-management-system/internal/db"
+
+templ SummaryPage(data db.User) {
+@vlayout.Base() {
+@vlayout.Header()
+<main class="container">
+    <h1>Settings</h1>
+    <form hx-put="/profile" hx-trigger="submit" hx-ext="json-enc" hx-swap="none">
+        <label>
+            Name
+            <input name="name" value={ data.Name } />
+        </label>
+        <label>
+            Email
+            <input name="email" type="email" value={ data.Email } />
+        </label>
+        <button>Save</button>
+    </form>
+</main>
+}
+}

@@ -10,11 +10,10 @@
 - - [x] Create story type
 - - [x] Create task type
 - - [x] Add priority
-- [ ] Kanban board
-- - [ ] Sorting
-- - [ ] Filtering
+- [x] Kanban board
 - - [x] Draggable
 - [ ] Data Validation
+- [ ] Change ownerEmail to ownerId on relationships
 
 ## Bonus
 - [ ] Chat
@@ -28,6 +27,9 @@
 - [ ] Support
 - - [ ] Ticket system
 - [ ] Add option to link issues
+- [ ] Kanban board improvements
+- - [ ] Sorting
+- - [ ] Filtering
 
 
 ## Future
